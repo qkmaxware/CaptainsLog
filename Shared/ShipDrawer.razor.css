@@ -1,0 +1,167 @@
+.container {
+    position: relative;
+    border: 1px solid black;
+    padding-left: 12px;
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 0;
+    page-break-after: always;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 4em;
+    background: transparent;
+    color: white;
+}
+
+hr {
+    border-top-width: 1px;
+    border-top-style: dashed;
+    margin-top: 2px;
+    margin-bottom: 12px;
+}
+
+select {
+    background-color: transparent;
+    color: white;
+    border-bottom: none;
+}
+
+select option {
+    color: black;
+}
+
+input {
+    background-color: transparent;
+    color: white;
+    border-bottom: none;
+}
+
+input:focus {
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: white;
+}
+
+select:focus {
+    border: none;
+    outline-offset: 0;
+    outline-width: 1px;
+    outline-color: white;
+}
+
+.stroke {
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.art {
+    height: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    object-fit: contain;
+    z-index: -1;
+}
+
+.role {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    text-align: right;
+    color: white;
+    height: 8em;
+    z-index: 1;
+}
+.role .content {
+    z-index: 1;
+    height: 8em;
+    overflow: hidden;
+    line-height: 2em;
+}
+
+.role img {
+    height: 8em;
+    z-index: 2;
+}
+
+.stat {
+    box-sizing: content-box;
+	width: 100%;
+    margin-bottom: 12px;
+}
+
+.stat .title {
+    box-sizing: content-box;
+    display: inline-block;
+    height: 2em;
+    width: 8em;
+    line-height: 2em;
+    color: white;
+    padding: 0px 8px;
+    overflow: hidden;
+}
+.stat.attribute .title {
+    background: rgb(0, 94, 188);
+    border: 1px solid rgb(0, 94, 188);
+}
+.stat.discipline .title {
+    background: rgb(168, 36, 36);
+    border: 1px solid rgb(168, 36, 36);
+}
+
+.stat .parallelogram {
+    overflow: hidden;
+    box-sizing: content-box;
+    display: inline-block;
+	width: 25px;
+	height: 2em;
+    line-height: 2em;
+    margin-left: -15px;
+	transform: skew(20deg);
+}
+.stat.attribute .parallelogram {
+    background: rgb(0, 94, 188);
+    border: 1px solid rgb(0, 94, 188);
+}
+.stat.discipline .parallelogram {
+    background: rgb(168, 36, 36);
+    border: 1px solid rgb(168, 36, 36);
+}
+
+.stat .value {
+    display: inline-block;
+    box-sizing: content-box;
+	background: white;
+    height: 2em;
+    width: calc(100% - 12em - 18px);
+    margin-left: -15px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 28px;
+    padding-right: 8px;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 2em;
+    overflow: hidden;
+}
+.stat.attribute .value {
+    border: 1px solid rgb(0, 94, 188);
+}
+.stat.discipline .value {
+    border: 1px solid rgb(168, 36, 36);
+}
+.stat .value input {
+    color: black;
+    line-height: 1.5em;
+    left: 0;
+    top: 0;
+	width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    text-align: center;
+}

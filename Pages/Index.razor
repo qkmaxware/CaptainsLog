@@ -1,0 +1,393 @@
+﻿@page "/"
+@inject IJSRuntime js
+
+<PageTitle>Captain's Log</PageTitle>
+
+<div class="w3-row no-print">
+    <div id="departments" class="w3-half">
+        <div class="w3-row" style="padding-left: 12px">
+            <div class="w3-col w3-right" style="width: 10em;">
+                <button class="w3-button" style="width: 100%; text-align: left;" @onclick=newVessel>+ Vessel</button>
+            </div>
+            <div class="w3-rest">
+                <select class="w3-select" style="background: transparent; color: white; text-align: right;" @bind=selectedShip>
+                    @if (!ReferenceEquals(fleet.Ships, null)) {
+                        for (var i = 0; i < fleet.Ships.Count; i++) {
+                            var ship = fleet.Ships[i];
+                            <option style="color: black" value="@i">@ship.Registry @ship.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="w3-row" style="padding-left: 12px">
+            <div class="w3-col w3-right" style="width: 10em;">
+                <button class="w3-button" style="width: 100%; text-align: left;" @onclick=newDepartment>+ Department</button>
+            </div>
+            <div class="w3-rest">
+                <select class="w3-select" style="background: transparent; color: white; text-align: right;" @bind=selectedDepartment>
+                    @if (!ReferenceEquals(currentShip?.Departments, null)) {
+                        for (var i = 0; i < currentShip.Departments.Count; i++) {
+                            var dept = currentShip.Departments[i];
+                            <option style="color: black" value="@i">@dept.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="settings" class="w3-half" style="text-align: right; padding-top: 8px;">
+        <label class="w3-button lcars-primary round-top-left lcars-margin-down lcars-pad-right">
+            Import
+            <InputFile style="display:none;" OnChange=UploadFileFromSystem type=".json" />
+        </label><br>
+        <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" @onclick=DownloadFileFromStream>Export</button>
+    </div>
+</div>
+
+<hr class="no-print">
+
+<div id="crew" class="w3-row">
+    @if (!ReferenceEquals(currentShip, null)) {
+        <ShipDrawer Ship=@currentShip>
+            <Actions>
+                <div class="w3-flat inline w3-green">
+                    <span style="padding: 8px 0px 8px 16px;">Select Image</span>
+                    <label class="w3-button w3-green" style="padding: 8px;">
+                        <img src="assets/load.png" class="icon">
+                        <InputFile style="display:none;" OnChange=@(async (e) => await loadImageFor(context, e)) type="image" />
+                    </label>
+                    | 
+                    <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseImageFor(context))><img src="assets/gallery.png" class="icon"></button>
+                </div>
+                <div class="w3-flat inline w3-green">
+                    <span style="padding: 8px 0px 8px 16px;">Select Background</span>
+                    <label class="w3-button w3-green" style="padding: 8px;">
+                        <img src="assets/load.png" class="icon">
+                        <InputFile style="display:none;" OnChange=@(async (e) => await loadBgFor(context, e)) type="image" />
+                    </label>
+                    | 
+                    <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseBgFor(context))><img src="assets/gallery.png" class="icon"></button>
+                </div>
+            </Actions>
+        </ShipDrawer>
+    }
+    @if (!ReferenceEquals(currentDepartment, null)) {
+        if (!ReferenceEquals(currentDepartment.Characters, null)) {
+            foreach (var crew in currentDepartment.Characters) {
+                <CharacterDrawer Character=@crew>
+                    <Actions>
+                        <div class="w3-flat inline w3-green">
+                            <span style="padding: 8px 0px 8px 16px;">Select Image</span>
+                            <label class="w3-button w3-green" style="padding: 8px;">
+                                <img src="assets/load.png" class="icon">
+                                <InputFile style="display:none;" OnChange=@(async (e) => await loadImageFor(context, e)) type="image" />
+                            </label>
+                            | 
+                            <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseImageFor(context))><img src="assets/gallery.png" class="icon"></button>
+                        </div>
+                        <button class="w3-button w3-red" @onclick=@(() => removeCharacterFromDepartment(context))>&times; delete</button>
+                    </Actions>
+                </CharacterDrawer>
+            }
+        }
+        <div class="w3-half add-char no-print">
+            <button class="w3-button" @onclick=addCrewToDepartment>+</button>
+        </div>
+    } else {
+        <div class="w3-center w3-large w3-padding">Select or create a department above</div>
+    }
+</div>
+
+<Modal @ref=shipArtModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var clazz in VesselClasses.All) {
+            var self = clazz.IconUrl;
+            <button title="@clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => shipArtModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectShipImageFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+<Modal @ref=shipBgModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var image in Backgrounds.All) {
+            var self = image;
+            <button class="w3-button w3-flat" style="@(shipBgSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipBgSelected = self)><img src="@self" class="gallery"></button>
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => shipBgModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectShipBgFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+<Modal @ref=characterArtModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var image in Avatars.All) {
+            var self = image;
+            <button class="w3-button w3-flat" style="@(characterArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => characterArtSelected = self)><img src="@self" class="gallery"></button>
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => characterArtModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectCharacterImageFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+@code {
+    private Fleet fleet = new Fleet();
+
+    private int selectedShip = 0;
+    private Ship? currentShip => !ReferenceEquals(fleet.Ships, null) && selectedShip < fleet.Ships.Count && selectedShip >= 0 ? fleet.Ships[selectedShip] : null;
+
+    private int selectedDepartment = 0;
+    private Department? currentDepartment => !ReferenceEquals(currentShip?.Departments, null) && selectedDepartment < currentShip.Departments.Count && selectedDepartment >= 0 ? currentShip.Departments[selectedDepartment] : null;
+
+    System.Text.Json.JsonSerializerOptions jsonOptions = new System.Text.Json.JsonSerializerOptions{
+        IncludeFields = true,
+        WriteIndented = true,
+    };
+
+    private async Task UploadFileFromSystem(InputFileChangeEventArgs e) {
+        try {
+            foreach (var path in e.GetMultipleFiles(1)) {
+                using MemoryStream ms = new MemoryStream();
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                ms.Position = 0;
+
+                using var reader = new StreamReader(ms);
+                var contents = reader.ReadToEnd();
+                var loaded = System.Text.Json.JsonSerializer.Deserialize<Fleet>(contents, jsonOptions);
+                if (ReferenceEquals(loaded, null))
+                    return;
+                this.fleet = loaded;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    } 
+
+    private async Task DownloadFileFromStream() {
+        var contents = System.Text.Json.JsonSerializer.Serialize(this.fleet, jsonOptions);
+        
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(contents);
+        writer.Flush();
+        stream.Position = 0;
+
+        var fileName = "Captain's Log.json";
+
+        using var streamRef = new DotNetStreamReference(stream: stream);
+
+        await js.InvokeVoidAsync("App.DownloadFileFromStream", fileName, streamRef);
+    }
+
+    private async Task newVessel() {
+        if (ReferenceEquals(fleet, null))
+            return;
+        if (ReferenceEquals(fleet.Ships, null))
+            fleet.Ships = new List<Ship>();
+                
+        string prompted = await js.InvokeAsync<string>("prompt", "New vessel name:"); 
+        if (string.IsNullOrEmpty(prompted))
+            return;
+        
+        var clazz = VesselClasses.RandomStarfleet();
+        var registry = Ship.GenRegistry();
+        var spec = Specializations.Random();
+        this.fleet.Ships.Add(new Ship {
+            ImageUrl = clazz.IconUrl,
+            BackgroundImageUrl = Backgrounds.Random(),
+            Name = prompted,
+            Registry = registry,
+            ClassName = clazz.Name,
+            Specialization = spec.Name,
+            Size = clazz.Scale,
+            Departments = new List<Department>{
+                Department.Default()
+            }
+        });
+    }
+
+    private async Task newDepartment() {
+        var ship = this.currentShip;
+        if (ReferenceEquals(ship, null))
+            return;
+        if (ReferenceEquals(ship.Departments, null))
+            ship.Departments = new List<Department>();
+                
+        string prompted = await js.InvokeAsync<string>("prompt", "New department name:"); 
+        if (string.IsNullOrEmpty(prompted))
+            return;
+        
+        ship.Departments.Add(new Department {
+            Name = prompted
+        });
+    }
+
+    private Modal? shipArtModal;
+    private Ship? shipArtModalShip;
+    private string? shipArtSelected = null;
+    private void browseImageFor(Ship? character) {
+        shipArtSelected = null;
+        shipArtModalShip = character;
+        shipArtModal?.Show();
+    }
+    private void selectShipImageFromGallery() {
+        if (!ReferenceEquals(shipArtModalShip, null)) {
+            shipArtModalShip.ImageUrl = shipArtSelected;
+        }
+        shipArtModal?.Hide();
+    }
+    private Modal? shipBgModal;
+    private Ship? shipBgModalShip;
+    private string? shipBgSelected = null;
+    private void browseBgFor(Ship? character) {
+        shipBgSelected = null;
+        shipBgModalShip = character;
+        shipBgModal?.Show();
+    }
+    private void selectShipBgFromGallery() {
+        if (!ReferenceEquals(shipBgModalShip, null) && !ReferenceEquals(shipBgSelected, null)) {
+            shipBgModalShip.BackgroundImageUrl = shipBgSelected; // Can never NULL this (hopefully)
+        }
+        shipBgModal?.Hide();
+    }
+    private async Task loadImageFor(Ship? ship, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(ship, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                ship.ImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+    private async Task loadBgFor(Ship? ship, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(ship, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                ship.BackgroundImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    private Modal? characterArtModal;
+    private Character? characterArtModalCharacter;
+    private string? characterArtSelected = null;
+    private void browseImageFor(Character? character) {
+        characterArtSelected = null;
+        characterArtModalCharacter = character;
+        characterArtModal?.Show();
+    }
+    private void selectCharacterImageFromGallery() {
+        if (!ReferenceEquals(characterArtModalCharacter, null)) {
+            characterArtModalCharacter.ImageUrl = characterArtSelected;
+        }
+        characterArtModal?.Hide();
+    }
+
+    private async Task loadImageFor(Character? character, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(character, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                character.ImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+    private void addCrewToDepartment() {
+        var dept = currentDepartment;
+        if (ReferenceEquals(dept, null))
+            return;
+        
+        if (ReferenceEquals(dept.Characters, null)) {
+            dept.Characters = new List<Character>();
+        }
+
+        dept.Characters.Add(new Character {
+            Rank = Rank.Lieutenant,
+            Name = "New Character"
+        });
+    }
+
+    private async Task removeCharacterFromDepartment(Character? character) {
+        var dept = currentDepartment;
+        if (ReferenceEquals(dept, null))
+            return;
+        if (ReferenceEquals(dept.Characters, null))
+            return;
+        if (ReferenceEquals(character, null))
+            return;
+        
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "Are you sure?"); 
+            
+        if (confirmed) {
+            dept.Characters.Remove(character);
+            StateHasChanged();
+        }
+    }
+}

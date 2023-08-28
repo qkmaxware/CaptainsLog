@@ -1,0 +1,28 @@
+<div class="w3-modal @(isVisible ? "w3-show" : "w3-hide")" style="color: black;">
+    <div class="w3-modal-content" style="border-radius: 25px; background: rgb(33, 33, 33); color: white;">
+        <span class="w3-button w3-display-topright" style="border-radius: 25px" @onclick=Hide>&times;</span>
+        <header>@Head</header>
+        <article class="w3-padding">
+            @Body
+        </article>
+        <footer>@Footer</footer>
+    </div>
+</div>
+
+@code {
+    private bool isVisible = false;
+
+    public void Show() {
+        this.isVisible = true;
+        StateHasChanged();
+    }
+
+    public void Hide() {
+        this.isVisible = false;
+        StateHasChanged();
+    }
+
+    [Parameter] public RenderFragment? Head {get; set;}
+    [Parameter] public RenderFragment? Body {get; set;}
+    [Parameter] public RenderFragment? Footer {get; set;}
+}

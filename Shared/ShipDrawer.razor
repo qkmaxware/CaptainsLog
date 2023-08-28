@@ -1,0 +1,137 @@
+@if (!ReferenceEquals(Ship, null)) {
+<div class="w3-half w3-padding">
+<div class="container" style="background-image: url('@Ship.BackgroundImageUrl');">
+    <div class="w3-row">
+        <div class="w3-col w3-right" style="width: 12em">
+            <input class="w3-input" @bind=Ship.Registry>
+        </div>
+        <div class="w3-rest">
+            <input class="w3-input" @bind=Ship.Name>
+        </div>
+    </div>
+    <hr>
+    <div class="w3-row-padding">
+        <div class="w3-twothird">
+            <div id="statistics" class="w3-row">
+                <div class="w3-half">
+                    <div class="stat attribute">
+                        <div class="title">Comms</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Comms/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Computers</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Computers/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Engines</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Engines/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Sensors</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Sensors/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Structure</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Structure/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Weapons</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Attributes.Weapons/></div>
+                    </div>
+                </div>
+                <div class="w3-half">
+                    <div class="stat discipline">
+                        <div class="title">Command</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Command/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Conn</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Conn/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Security</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Security/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Engineering</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Engineering/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Science</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Science/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Medicine</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Ship.Disciplines.Medicine/></div>
+                    </div>
+                </div>
+            </div>
+            <div id="focuses">
+                <textarea @bind=features></textarea>
+            </div>
+            <div id="actions" class="no-print" style="padding-bottom: 12px">
+                @if (!ReferenceEquals(Actions, null)) {
+                    @Actions(this.Ship)
+                }
+            </div>
+        </div>
+        
+        <div class="w3-third" style="text-align: right; position: relative; height: 425px;">
+            @if (!string.IsNullOrEmpty(Ship.ImageUrl)) {
+            <img class="art" src="@Ship.ImageUrl">
+            }
+            <div class="role w3-row">
+                <div class="w3-rest content">
+                    <input type="text" class="w3-input stroke" placeholder="Class Unknown" style="text-align: right; padding: 0; font-size: large" @bind=@Ship.ClassName/>
+                    <input type="text" class="w3-input stroke" placeholder="Generic Specialization" list=specialization_suggestions style="text-align: right; padding: 0; font-size: large" @bind=@Ship.Specialization/>
+                    <datalist id="specialization_suggestions">
+                        @foreach (var spec in Specializations.All) {
+                            <option value="@spec.Name">@(spec.Description ?? spec.Name)</option>
+                        }
+                    </datalist>
+                    <div style="position: relative">
+                        <input type="number" class="w3-input stroke" style="text-align: right; padding-right: 3em; padding-bottom: 0; padding-top:0;" @bind=Ship.Size>
+                        <div class="w3-col stroke" style="position: absolute; width: 3em; right: 0; bottom: 0">Scale</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+}
+
+@code {
+    [Parameter] public RenderFragment<Ship?>? Actions {get; set;}
+    [Parameter] public Ship? Ship {get; set;}
+
+
+
+    private string features {
+        get => string.Join(", ", Ship?.Features ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(Ship, null)) {
+                if (ReferenceEquals(Ship.Features, null)) {
+                    Ship.Features = new List<string>();
+                }
+
+                Ship.Features.Clear();
+                Ship.Features.AddRange(feats);
+            }
+        }
+    }
+}

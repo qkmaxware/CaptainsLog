@@ -1,0 +1,144 @@
+@if (!ReferenceEquals(Character, null)) {
+<div class="w3-half w3-padding">
+<div class="container @Character.Division">
+    <div class="w3-row">
+        <div class="w3-col" style="width: 12em">
+            <select class="w3-select" @bind=Character.Rank>
+                @foreach (var rank in Enum.GetValues<Rank>()) {
+                    <option value="@(rank)">@rank.GetName()</option> 
+                }
+            </select>
+        </div>
+        <div class="w3-rest">
+            <input class="w3-input" @bind=Character.Name>
+        </div>
+    </div>
+    <hr>
+    <div class="w3-row-padding">
+        <div class="w3-twothird">
+            <div id="statistics" class="w3-row">
+                <div class="w3-half">
+                    <div class="stat attribute">
+                        <div class="title">Control</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Control/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Daring</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Daring/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Fitness</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Fitness/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Insight</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Insight/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Precence</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Presence/></div>
+                    </div>
+                    <div class="stat attribute">
+                        <div class="title">Reason</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Attributes.Reason/></div>
+                    </div>
+                </div>
+                <div class="w3-half">
+                    <div class="stat discipline">
+                        <div class="title">Command</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Command/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Conn</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Conn/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Security</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Security/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Engineering</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Engineering/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Science</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Science/></div>
+                    </div>
+                    <div class="stat discipline">
+                        <div class="title">Medicine</div>
+                        <div class="parallelogram">&nbsp;</div>
+                        <div class="value"><input type="number" @bind=Character.Disciplines.Medicine/></div>
+                    </div>
+                </div>
+            </div>
+            <div id="focuses">
+                <textarea @bind=features></textarea>
+            </div>
+            <div id="actions" class="no-print" style="padding-bottom: 12px">
+                @if (!ReferenceEquals(Actions, null)) {
+                    @Actions(this.Character)
+                }
+            </div>
+        </div>
+        
+        <div class="w3-third" style="text-align: right; position: relative; height: 425px;">
+            @if (!string.IsNullOrEmpty(Character.ImageUrl)) {
+            <img class="art" src="@Character.ImageUrl">
+            }
+            <div class="role w3-row">
+                <img class="w3-right" src="assets/starfleet.svg">
+                <div class="w3-rest">
+                    <input type="text" class="w3-input stroke" placeholder="Unassigned" list=assignment_suggestions style="text-align: right; padding: 0; font-size: large" @bind=@Character.Assignment/>
+                    <datalist id="assignment_suggestions">
+                        @foreach (var group in Assignments.EnumerateByDepartment()) {
+                            <optgroup label=@group.Key>
+                                @foreach (var assignment in group.Value) {
+                                    <option value="@assignment.Name">@group.Key Department</option>
+                                }
+                            </optgroup>
+                        }
+                    </datalist>
+                    <select class="w3-select stroke" style="text-align: right;" @bind=Character.Division>
+                        @foreach (var div in Enum.GetValues<Division>()) {
+                            <option value="@div">@div Division</option> 
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+}
+
+@code {
+    [Parameter] public RenderFragment<Character?>? Actions {get; set;}
+    [Parameter] public Character? Character {get; set;}
+
+    private string features {
+        get => string.Join(", ", Character?.Focuses ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(Character, null)) {
+                if (ReferenceEquals(Character.Focuses, null)) {
+                    Character.Focuses = new List<string>();
+                }
+
+                Character.Focuses.Clear();
+                Character.Focuses.AddRange(feats);
+            }
+        }
+    }
+}

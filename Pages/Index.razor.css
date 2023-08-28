@@ -1,0 +1,72 @@
+.add-char {
+    height: 380px;
+    position: relative;
+}
+
+.add-char button {
+    position: absolute;
+    border: 1px dashed white;
+    user-select: none;
+    cursor: pointer;
+
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    bottom: 16px;
+
+    font-size: xx-large;
+    display: block;
+    min-width: 3em;
+    text-align: center;
+    line-height: 3em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lcars-primary {
+    background-color: #ff7700;
+    color: black;
+}
+
+.lcars-secondary {
+    background-color: #7788ff;
+    color: black;
+}
+
+.lcars-margin-down {
+    margin-bottom: 2px;
+}
+
+.lcars-margin-up {
+    margin-top: 2px;
+}
+
+.lcars-pad-right {
+    padding-right: 120px;
+}
+
+.round-top-left {
+    border-top-left-radius: 25px;
+}
+
+.round-bottom-left {
+    border-bottom-left-radius: 25px;
+}
+
+.round-top-right {
+    border-top-right-radius: 25px;
+}
+
+.round-bottom-right {
+    border-bottom-right-radius: 25px;
+}
+
+button.gallery {
+    background-color: transparent;
+}
+
+img.gallery {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
