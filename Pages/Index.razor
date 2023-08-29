@@ -106,8 +106,12 @@
     </Head>
     <Body>
         @foreach (var clazz in VesselClasses.All) {
-            var self = clazz.IconUrl;
-            <button title="@clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
+            if (!ReferenceEquals(clazz, null)) {
+                foreach (var art in clazz.Icons.EnumerateArtwork()) {
+                    var self = art;
+                    <button title="@clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
+                }
+            }
         }
     </Body>
     <Footer>
@@ -232,7 +236,7 @@
         var registry = Ship.GenRegistry();
         var spec = Specializations.Random();
         this.fleet.Ships.Add(new Ship {
-            ImageUrl = clazz.IconUrl,
+            ImageUrl = clazz.Icons.GetPreferredArtwork(),
             BackgroundImageUrl = Backgrounds.Random(),
             Name = prompted,
             Registry = registry,

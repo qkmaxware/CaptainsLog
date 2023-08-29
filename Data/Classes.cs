@@ -3,11 +3,34 @@ namespace CaptainsLog.Data;
 public class VesselClass {
     public string Name {get; set;}
     public int Scale {get; set;}
-    public string? IconUrl {get; set;}
+    public VesselClassArtwork Icons {get; set;}
     public VesselClass(string name, int scale, string? iconUrl = null) {
         this.Name = name;
         this.Scale = scale;
-        this.IconUrl = iconUrl;
+        this.Icons = new VesselClassArtwork {
+            SilhouetteIconUrl = iconUrl
+        };
+    }
+    public VesselClass(string name, int scale, VesselClassArtwork icons) {
+        this.Name = name;
+        this.Scale = scale;
+        this.Icons = icons;
+    }
+}
+
+public class VesselClassArtwork {
+    public string? SilhouetteIconUrl {get; set;}
+    public string? RenderedIconUrl {get; set;}
+
+    public string? GetPreferredArtwork() {
+        return EnumerateArtwork().FirstOrDefault();
+    }
+    public IEnumerable<string> EnumerateArtwork() {
+        if (!string.IsNullOrEmpty(this.RenderedIconUrl))
+            yield return this.RenderedIconUrl;
+
+        if (!string.IsNullOrEmpty(this.SilhouetteIconUrl))
+            yield return this.SilhouetteIconUrl;
     }
 }
 
@@ -26,9 +49,15 @@ public static class VesselClasses {
         .Concat(Borg);
     public static List<VesselClass> Federation {get; private set;} = new List<VesselClass> {
         new VesselClass("Akira", 5, "assets/ships/ufp/AkiraClass.png"),
-        new VesselClass("Ambassador", 5, "assets/ships/ufp/AmbassadorClass.png"),
+        new VesselClass("Ambassador", 5, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/AmbassadorClass.png",
+            RenderedIconUrl = "assets/ships/ufp/AmbassadorClass.Render.png",
+        }),
         new VesselClass("California", 3, "assets/ships/ufp/CaliforniaClass.png"),
-        new VesselClass("Centaur", 4, "assets/ships/ufp/CentaurClass.png"),
+        new VesselClass("Centaur", 4, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/CentaurClass.png",
+            RenderedIconUrl = "assets/ships/ufp/CentaurClass.Render.png",
+        }),
         new VesselClass("Challenger", 4, "assets/ships/ufp/ChallengerClass.png"),
         new VesselClass("Cheyenne", 4, "assets/ships/ufp/CheyenneClass.png"),
         new VesselClass("Constellation", 4, "assets/ships/ufp/ConstellationClass.png"),
@@ -36,26 +65,47 @@ public static class VesselClasses {
         new VesselClass("Crossfield", 4, "assets/ships/ufp/CrossfieldClass.png"),
         new VesselClass("Daedalus", 3, "assets/ships/ufp/DaedalusClass.png"),
         new VesselClass("Defiant", 3, "assets/ships/ufp/DefiantClass.png"),
-        new VesselClass("Excelsior", 5, "assets/ships/ufp/ExcelsiorClass.png"),
+        new VesselClass("Excelsior", 5, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/ExcelsiorClass.png",
+            RenderedIconUrl = "assets/ships/ufp/ExcelsiorClass.Render.png",
+        }),
         new VesselClass("Freedom", 4, "assets/ships/ufp/FreedomClass.png"),
-        new VesselClass("Galaxy", 6, "assets/ships/ufp/GalaxyClass.png"),
+        new VesselClass("Galaxy", 6, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/GalaxyClass.png",
+            RenderedIconUrl = "assets/ships/ufp/GalaxyClass.Render.png",
+        }),
         new VesselClass("Hermes", 4, "assets/ships/ufp/HermesClass.png"),
         new VesselClass("Intrepid", 4, "assets/ships/ufp/IntrepidClass.png"),
-        new VesselClass("Luna", 5, "assets/ships/ufp/LunaClass.png"),
+        new VesselClass("Luna", 5, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/LunaClass.png",
+            RenderedIconUrl = "assets/ships/ufp/LunaClass.Render.png",
+        }),
         new VesselClass("Miranda", 4, "assets/ships/ufp/MirandaClass.png"),
         new VesselClass("Nebula", 5, "assets/ships/ufp/NebulaClass.png"),
         new VesselClass("New Orleans", 4, "assets/ships/ufp/NewOrleansClass.png"),
         new VesselClass("Niagara", 5, "assets/ships/ufp/NiagaraClass.png"),
-        new VesselClass("Norway", 4, "assets/ships/ufp/NorwayClass.png"),
-        new VesselClass("Nova", 3, "assets/ships/ufp/NovaClass.png"),
+        new VesselClass("Norway", 4, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/NorwayClass.png",
+            RenderedIconUrl = "assets/ships/ufp/NorwayClass.Render.png",
+        }),
+        new VesselClass("Nova", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/NovaClass.png",
+            RenderedIconUrl = "assets/ships/ufp/NovaClass.Render.png",
+        }),
         new VesselClass("NX", 3, "assets/ships/ufp/NXClass.png"),
-        new VesselClass("Oberth", 3, "assets/ships/ufp/OberthClass.png"),
+        new VesselClass("Oberth", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/OberthClass.png",
+            RenderedIconUrl = "assets/ships/ufp/OberthClass.Render.png",
+        }),
         new VesselClass("Olympic", 4, "assets/ships/ufp/OlympicClass.png"),
         new VesselClass("Parliament", 3, "assets/ships/ufp/ParliamentClass.png"),
         new VesselClass("Sabre", 3, "assets/ships/ufp/SaberClass.png"),
         new VesselClass("Shepard", 3, "assets/ships/ufp/ShepardClass.png"),
         new VesselClass("Sovereign", 6, "assets/ships/ufp/SovereignClass.png"),
-        new VesselClass("Springfield", 4, "assets/ships/ufp/SpringfieldClass.png"),
+        new VesselClass("Springfield", 4, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/SpringfieldClass.png",
+            RenderedIconUrl = "assets/ships/ufp/SpringfieldClass.Render.png",
+        }),
         new VesselClass("Steamrunner", 4, "assets/ships/ufp/SteamrunnerClass.png"),
         new VesselClass("Sydney", 4, "assets/ships/ufp/SydneyClass.png"),
         new VesselClass("Walker", 3, "assets/ships/ufp/WalkerClass.png"),

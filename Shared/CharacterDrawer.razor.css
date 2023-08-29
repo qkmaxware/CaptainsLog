@@ -179,3 +179,9 @@ select:focus {
     border: none;
     text-align: center;
 }
+
+@media (max-width: 1600px) {
+    .w3-half{ 
+        width: 100% !important;
+    }
+}
