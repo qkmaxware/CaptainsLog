@@ -253,6 +253,12 @@ select:focus[b-uio9babwbw] {
     border: none;
     text-align: center;
 }
+
+@media (max-width: 1600px) {
+    .w3-half[b-uio9babwbw]{ 
+        width: 100% !important;
+    }
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-axs8p9ae6d] {
     position: relative;
@@ -502,4 +508,10 @@ select:focus[b-93cw0whznc] {
     margin: 0;
     border: none;
     text-align: center;
+}
+
+@media (max-width: 1600px) {
+    .w3-half[b-93cw0whznc]{
+        width: 100% !important;
+    }
 }
