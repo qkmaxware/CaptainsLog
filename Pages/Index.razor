@@ -109,7 +109,7 @@
             if (!ReferenceEquals(clazz, null)) {
                 foreach (var art in clazz.Icons.EnumerateArtwork()) {
                     var self = art;
-                    <button title="@clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
+                    <button title="@clazz.Faction - @clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
                 }
             }
         }
