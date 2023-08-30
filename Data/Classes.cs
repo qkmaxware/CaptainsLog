@@ -45,6 +45,7 @@ public static class VesselClasses {
         .Concat(Klingon)
         .Concat(Romulan)
         .Concat(Dominion)
+        .Concat(Cardassian)
         .Concat(Ferengi)
         .Concat(Borg);
     public static List<VesselClass> Federation {get; private set;} = new List<VesselClass> {
@@ -99,6 +100,10 @@ public static class VesselClasses {
         }),
         new VesselClass("Olympic", 4, "assets/ships/ufp/OlympicClass.png"),
         new VesselClass("Parliament", 3, "assets/ships/ufp/ParliamentClass.png"),
+        new VesselClass("Prometheus", 4, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/PrometheusClass.png",
+            RenderedIconUrl = "assets/ships/ufp/PrometheusClass.Render.png",
+        }),
         new VesselClass("Sabre", 3, "assets/ships/ufp/SaberClass.png"),
         new VesselClass("Shepard", 3, "assets/ships/ufp/ShepardClass.png"),
         new VesselClass("Sovereign", 6, "assets/ships/ufp/SovereignClass.png"),
@@ -111,10 +116,22 @@ public static class VesselClasses {
         new VesselClass("Walker", 3, "assets/ships/ufp/WalkerClass.png"),
     };
     public static List<VesselClass> Klingon {get; private set;} = new List<VesselClass> {
-        new VesselClass("B'Rel", 3, "assets/ships/klingon/B'RelClassBird-of-Prey.png"),
-        new VesselClass("K'Vort", 3, "assets/ships/klingon/K'VortClassBird-of-Prey.png"),
-        new VesselClass("Vor'Cha", 3, "assets/ships/klingon/Vor'ChaClassAttackCruiser.png"),
-        new VesselClass("D7", 3, "assets/ships/klingon/D7BattleCruiser.png"),
+        new VesselClass("B'Rel", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.png",
+            RenderedIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.Render.png",
+        }),
+        new VesselClass("K'Vort", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/klingon/K'VortClassBird-of-Prey.png",
+            //RenderedIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.Render.png",
+        }),
+        new VesselClass("Vor'Cha", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/klingon/Vor'ChaClassAttackCruiser.png",
+            RenderedIconUrl = "assets/ships/klingon/Vor'ChaClassAttackCruiser.Render.png",
+        }),
+        new VesselClass("K'Tinga", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/klingon/D7BattleCruiser.png",
+            RenderedIconUrl = "assets/ships/klingon/K'Tinga.Render.png",
+        }),
     };
     public static List<VesselClass> Romulan {get; private set;} = new List<VesselClass> {
         new VesselClass("T'Liss", 3, "assets/ships/romulan/RomulanBird-of-Prey.png"),
@@ -124,12 +141,24 @@ public static class VesselClasses {
         new VesselClass("Jem'Hadar Attack Ship", 3, "assets/ships/dominion/Jem'HadarAttackShip.png"),
         new VesselClass("Jem'Hadar Battle Cruiser", 3, "assets/ships/dominion/Jem'HadarBattleCruiser.png"),
     };
+    public static List<VesselClass> Cardassian {get; private set;} = new List<VesselClass> {
+        new VesselClass("Galor", 3, "assets/ships/cardassian/GalorClass.png"),
+    };
     public static List<VesselClass> Ferengi {get; private set;} = new List<VesselClass> {
-        new VesselClass("D'Kora", 3, "assets/ships/ferengi/D'KoraMarauder.png"),
+        new VesselClass("D'Kora", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ferengi/D'KoraMarauder.png",
+            RenderedIconUrl = "assets/ships/ferengi/D'KoraMarauder.Render.png",
+        }),
     };
     public static List<VesselClass> Borg {get; private set;} = new List<VesselClass> {
-        new VesselClass("Cube", 3, "assets/ships/borg/BorgCube.png"),
-        new VesselClass("Sphere", 3, "assets/ships/borg/BorgSphere.png"),
+        new VesselClass("Cube", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/borg/BorgCube.png",
+            RenderedIconUrl = "assets/ships/borg/BorgCube.Render.png",
+        }),
+        new VesselClass("Sphere", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/borg/BorgSphere.png",
+            RenderedIconUrl = "assets/ships/borg/BorgSphere.Render.png",
+        }),
     };
 
 }
