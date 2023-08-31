@@ -10,7 +10,16 @@
                     <InputFile style="display:none;" OnChange=UploadAppDataJson type=".json" />
                 </label><br>
 
-                <hr>
+                <details>
+                    <summary>Import From Previous Versions</summary>
+                    <div class="w3-border w3-container w3-center">
+                        <label class="w3-button w3-round-xlarge w3-margin-top w3-margin-bottom lcars-secondary">
+                        Import From Version 1.0
+                        <InputFile style="display:none;" OnChange=UploadAppDataJsonV1 type=".json" />
+                    </label>
+                    </div>
+                </details>
+
 
                 <div style="text-align: right;">
                     <button class="w3-button w3-round-xlarge w3-margin-top lcars-warning" @onclick=Delete>Delete</button>
@@ -44,6 +53,28 @@
                 if (ReferenceEquals(loaded, null))
                     return;
                 this.DataProvider?.LoadAppData(loaded);
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    } 
+
+    private async Task UploadAppDataJsonV1(InputFileChangeEventArgs e) {
+        try {
+            foreach (var path in e.GetMultipleFiles(1)) {
+                using MemoryStream ms = new MemoryStream();
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                ms.Position = 0;
+
+                using var reader = new StreamReader(ms);
+                var contents = reader.ReadToEnd();
+                var loaded = System.Text.Json.JsonSerializer.Deserialize<Fleet>(contents, jsonOptions);
+                if (ReferenceEquals(loaded, null))
+                    return;
+                this.DataProvider?.LoadAppData(new AppData {
+                    Fleet = loaded
+                });
             }
             StateHasChanged();
         } catch (Exception ex) {
