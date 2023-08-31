@@ -1,13 +1,74 @@
-.container {
+.art {
     position: relative;
-    border: 1px solid black;
-    padding-left: 12px;
-    padding-top: 12px;
-    padding-right: 12px;
-    padding-bottom: 0;
-    page-break-after: always;
-    background-repeat: no-repeat;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.art.Command {
+    background: rgb(136,0,0);
+    background: linear-gradient(180deg, rgba(136,0,0,1) 29%, rgba(0,0,0,1) 100%);
+}
+
+.art.Operations {
+    background: rgb(224,139,0);
+    background: linear-gradient(180deg, rgba(224,139,0,1) 29%, rgba(0,0,0,1) 100%);
+}
+
+.art.Sciences {
+    background: rgb(0,146,192);
+    background: linear-gradient(180deg, rgba(0,146,192,1) 29%, rgba(0,0,0,1) 100%);
+}
+.art .character {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+.art .top {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: right;
+}
+
+.art .bar {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.art .bar .actions {
+    padding-left: 4px;
+    padding-bottom: 16px;
+    padding-right: 4px;
+}
+
+.art .bar .divider {
+    height: 16px;
+    width: 100%;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    background-color: #23272a;
+}
+
+img.gallery {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.details {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
 
 textarea {
@@ -18,17 +79,10 @@ textarea {
     color: white;
 }
 
-hr {
-    border-top-width: 1px;
-    border-top-style: dashed;
-    margin-top: 2px;
-    margin-bottom: 12px;
-}
-
 select {
     background-color: transparent;
     color: white;
-    border-bottom: none;
+    border-bottom: 1px dashed white;
 }
 
 select option {
@@ -38,7 +92,7 @@ select option {
 input {
     background-color: transparent;
     color: white;
-    border-bottom: none;
+    border-bottom: 1px dashed white;
 }
 
 input:focus {
@@ -56,14 +110,6 @@ select:focus {
 
 .stroke {
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-}
-
-.art {
-    height: 100%;
-    max-width: 100%;
-    margin-left: auto;
-    object-fit: contain;
-    z-index: -1;
 }
 
 .role {
@@ -116,7 +162,7 @@ select:focus {
     overflow: hidden;
     box-sizing: content-box;
     display: inline-block;
-	width: 25px;
+	width: 15px;
 	height: 2em;
     line-height: 2em;
     margin-left: -15px;
@@ -136,12 +182,12 @@ select:focus {
     box-sizing: content-box;
 	background: white;
     height: 2em;
-    width: calc(100% - 12em - 18px);
+    width: calc(100% - 8.5em);
     margin-left: -15px;
     margin-top: 0;
     margin-bottom: 0;
-    padding-left: 28px;
-    padding-right: 8px;
+    padding-left: 15px;
+    padding-right: 0px;
     padding-top: 0;
     padding-bottom: 0;
     line-height: 2em;
@@ -164,10 +210,4 @@ select:focus {
     margin: 0;
     border: none;
     text-align: center;
-}
-
-@media (max-width: 1600px) {
-    .w3-half{
-        width: 100% !important;
-    }
 }

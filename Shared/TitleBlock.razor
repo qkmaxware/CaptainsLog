@@ -1,0 +1,13 @@
+<div class="section">
+    <header class="lcars-primary w3-center w3-container">
+        @Title
+    </header>
+    <section class="w3-padding">
+        @ChildContent
+    </section>
+</div>
+
+@code {
+    [Parameter] public string? Title {get; set;}
+    [Parameter] public RenderFragment? ChildContent {get; set;}
+}

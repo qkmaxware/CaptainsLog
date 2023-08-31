@@ -1,0 +1,26 @@
+@implements IDisposable
+
+@if (Parent != null && Parent.IsVisible(this)) {
+    @ChildContent    
+}
+
+@code {
+    [CascadingParameter] public TabView? Parent {get; set;}
+    [Parameter] public string? Title {get; set;}
+    [Parameter] public RenderFragment? ChildContent {get; set;}
+
+    protected override void OnInitialized() {
+        base.OnInitialized();
+
+        if (Parent != null) {
+            Parent.Add(this);
+        }
+    }
+
+    public void Dispose() {
+        if (Parent != null) {
+            Parent.Remove(this);
+        }
+    }
+}
+

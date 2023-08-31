@@ -1,0 +1,77 @@
+@inject IJSRuntime js
+
+<SlideDrawer @ref=appSettings OnClose=@(() => DataProvider?.Save())>
+    <TabView>
+        <Tab Title="Application">
+            <TitleBlock Title="Data">
+                <button class="w3-button w3-round-xlarge w3-margin-top lcars-primary wide" @onclick=DownloadAppDataJson>Export</button>
+                <label class="w3-button w3-round-xlarge w3-margin-top w3-margin-bottom lcars-secondary wide">
+                    Import
+                    <InputFile style="display:none;" OnChange=UploadAppDataJson type=".json" />
+                </label><br>
+
+                <hr>
+
+                <div style="text-align: right;">
+                    <button class="w3-button w3-round-xlarge w3-margin-top lcars-warning" @onclick=Delete>Delete</button>
+                </div>
+            </TitleBlock>
+        </Tab>
+    </TabView>
+</SlideDrawer>
+
+@code {
+
+    [Parameter] public IAppDataProvider? DataProvider {get; set;}
+    private SlideDrawer? appSettings;
+    public void Open() => appSettings?.Show();
+
+    System.Text.Json.JsonSerializerOptions jsonOptions = new System.Text.Json.JsonSerializerOptions{
+        IncludeFields = true,
+        WriteIndented = true,
+    };
+
+    private async Task UploadAppDataJson(InputFileChangeEventArgs e) {
+        try {
+            foreach (var path in e.GetMultipleFiles(1)) {
+                using MemoryStream ms = new MemoryStream();
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                ms.Position = 0;
+
+                using var reader = new StreamReader(ms);
+                var contents = reader.ReadToEnd();
+                var loaded = System.Text.Json.JsonSerializer.Deserialize<AppData>(contents, jsonOptions);
+                if (ReferenceEquals(loaded, null))
+                    return;
+                this.DataProvider?.LoadAppData(loaded);
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    } 
+
+    private async Task DownloadAppDataJson() {
+        var data = this.DataProvider?.GetAppData();
+        var contents = System.Text.Json.JsonSerializer.Serialize(data, jsonOptions);
+        
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        writer.Write(contents);
+        writer.Flush();
+        stream.Position = 0;
+
+        var fileName = "Captain's Log.json";
+
+        using var streamRef = new DotNetStreamReference(stream: stream);
+
+        await js.InvokeVoidAsync("App.DownloadFileFromStream", fileName, streamRef);
+    }
+
+    private async Task Delete() {
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "This action cannot be undone. Are you sure you want to delete all application data?"); 
+        if (confirmed) {
+            this.DataProvider?.LoadAppData(new AppData());
+        }
+    }
+}

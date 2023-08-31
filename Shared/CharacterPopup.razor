@@ -1,0 +1,350 @@
+@inject IJSRuntime js
+
+<SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
+    @if (!ReferenceEquals(actor, null)) {
+    <div class="header w3-row w3-padding w3-large">
+        <div class="w3-col" style="width: 12em">
+            <select class="w3-select" @bind=actor.Rank>
+                @foreach (var rank in Enum.GetValues<Rank>()) {
+                    <option value="@(rank)">@rank.GetName()</option> 
+                }
+            </select>
+        </div>
+        <div class="w3-rest">
+            <input class="w3-input" @bind=actor.Name>
+        </div>
+    </div>
+    <div class="art @actor.Division">
+        <div class="top">
+            <button class="w3-button w3-flat" @onclick=@(() => actor.IsFavorite = !actor.IsFavorite)>
+                <img src='@(actor.IsFavorite ? "ui/star_full.svg" : "ui/star_empty.svg")' width=32 height=32>
+            </button>
+        </div>
+        <img class="character" src=@actor.ImageUrl>
+        <div class="bar">
+            <div class="actions">
+                <div class="w3-flat inline w3-green">
+                    <span style="padding: 8px 0px 8px 16px;">Image</span>
+                    <label class="w3-button w3-green" style="padding: 8px;">
+                        <img src="assets/load.png" class="icon">
+                        <InputFile style="display:none;" OnChange=@(async (e) => await loadImageFor(actor, e)) type="image" />
+                    </label>
+                    | 
+                    <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseImageFor(actor))><img src="assets/gallery.png" class="icon"></button>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="details">
+        <TitleBlock Title="Personnel Record">
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Name</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Name" @bind=@actor.Name/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Rank</label></div>
+                <div class="w3-rest">
+                    <select class="w3-select" @bind=actor.Rank>
+                        @foreach (var rank in Enum.GetValues<Rank>()) {
+                            <option value="@(rank)">@rank.GetName()</option> 
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Pronoun(s)</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Pronouns" @bind=@actor.Pronouns/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Traits</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Traits" @bind=@actor.Traits/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Upbringing</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Upbringing / Environment" @bind=@actor.Upbringing.Environment/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Outlook</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Psychological Profile / Outlook" @bind=@actor.Upbringing.Outlook/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Education</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Education" @bind=@actor.Upbringing.Education/>
+                </div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Division</label></div>
+                <div class="w3-rest">
+                    <select class="w3-select" @bind=actor.Division>
+                        @foreach (var div in Enum.GetValues<Division>()) {
+                            <option value="@div">@div Division</option> 
+                        }
+                    </select>
+                </div>
+            </div>
+        </TitleBlock>
+        <TitleBlock Title="Assignment">
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Role</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Unassigned" list=assignment_suggestions @bind=@actor.Assignment/>
+                    <datalist id="assignment_suggestions">
+                        @foreach (var group in Assignments.EnumerateByDepartment()) {
+                            <optgroup label=@group.Key>
+                                @foreach (var assignment in group.Value) {
+                                    <option value="@assignment.Name">@group.Key Department</option>
+                                }
+                            </optgroup>
+                        }
+                    </datalist>
+                </div>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <div class="w3-col" style="width: 8em"><label>Vessel</label></div>
+                <div class="w3-col w3-right" style="width: 8em">
+                    <button class="w3-button w3-green" style="width: 100%" @onclick=openReassignment>Reassign</button>
+                </div>
+                <div class="w3-rest">
+                    @assigned?.Name @assigned?.Registry
+                </div>
+            </div>
+        </TitleBlock>
+        <TitleBlock Title="Statistics">
+        <div id="statistics" class="w3-row">
+            <div class="w3-col s6">
+                <div class="stat attribute">
+                    <div class="title">Control</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Control/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Daring</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Daring/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Fitness</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Fitness/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Insight</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Insight/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Presence</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Presence/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Reason</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Attributes.Reason/></div>
+                </div>
+            </div>
+            <div class="w3-col s6">
+                <div class="stat discipline">
+                    <div class="title">Command</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Command/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Conn</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Conn/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Security</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Security/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Engineering</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Engineering/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Science</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Science/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Medicine</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=actor.Disciplines.Medicine/></div>
+                </div>
+            </div>
+        </div>
+        </TitleBlock>
+        <TitleBlock Title="Values">
+            <textarea @bind=values></textarea>
+        </TitleBlock>
+        <TitleBlock Title="Focuses">
+            <textarea @bind=focuses></textarea>
+        </TitleBlock>
+    </div>
+    }
+</SlideDrawer>
+
+<Modal @ref=actorArtModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var image in Avatars.All) {
+            var self = image;
+            <button class="w3-button w3-flat" style="@(actorArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => actorArtSelected = self)><img src="@self" class="gallery"></button>
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => actorArtModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectCharacterImageFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+<Modal @ref=reassignmentModal>
+    <Head>
+        <h2 class="w3-container">Reassign</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        <select class="w3-select" @bind="reassignShipRegistry">
+            <option hidden disabled selected value>-- select an vessel --</option>
+            @foreach (var ship in this.ships) {
+                <option value="@ship.Registry">@ship.Name @ship.Registry</option>
+            }
+        </select>
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => reassignmentModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=reassign>Confirm</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+@code {
+    [Parameter] public IAppDataProvider? DataProvider {get; set;}
+
+    private Character? actor;
+    private Ship? assigned;
+    private List<Ship> ships = new List<Ship>();
+    private SlideDrawer? drawer;
+
+    public void Show(Character actor) {
+        this.actor = actor;
+        this.assigned = DataProvider?.GetAppData()?.FindAssignedVessel(actor);
+        this.ships.Clear();
+        this.ships.AddRange(DataProvider?.GetAppData()?.Fleet?.Ships ?? Enumerable.Empty<Ship>());
+        drawer?.Show();
+    }
+
+    private string values {
+        get => string.Join(", ", actor?.Values ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(actor, null)) {
+                if (ReferenceEquals(actor.Values, null)) {
+                    actor.Values = new List<string>();
+                }
+
+                actor.Values.Clear();
+                actor.Values.AddRange(feats);
+            }
+        }
+    }
+    private string focuses {
+        get => string.Join(", ", actor?.Focuses ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(actor, null)) {
+                if (ReferenceEquals(actor.Focuses, null)) {
+                    actor.Focuses = new List<string>();
+                }
+
+                actor.Focuses.Clear();
+                actor.Focuses.AddRange(feats);
+            }
+        }
+    }
+
+    private Modal? actorArtModal;
+    private Character? actorArtModalCharacter;
+    private string? actorArtSelected = null;
+    private void browseImageFor(Character? character) {
+        actorArtSelected = null;
+        actorArtModalCharacter = character;
+        actorArtModal?.Show();
+    }
+    private void selectCharacterImageFromGallery() {
+        if (!ReferenceEquals(actorArtModalCharacter, null)) {
+            actorArtModalCharacter.ImageUrl = actorArtSelected;
+        }
+        actorArtModal?.Hide();
+    }
+
+    private async Task loadImageFor(Character? actor, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(actor, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                actor.ImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    private Modal? reassignmentModal;
+    private string? reassignShipRegistry;
+    private void openReassignment() {
+        reassignShipRegistry = null;
+        reassignmentModal?.Show();
+    }
+    private void reassign() {
+        if (!ReferenceEquals(actor, null)) {
+            return;
+        }
+
+        var vessel = DataProvider?.GetAppData()?.FindShipWithRegistryNumber(this.reassignShipRegistry);
+        if (!ReferenceEquals(assigned, null)) {
+            //assigned.Unassign(actor);
+        }
+        if (!ReferenceEquals(vessel, null)) {
+            //vessel.Assign(actor);
+            //this.assigned = vessel;
+        }
+        reassignmentModal?.Hide();
+    }
+}

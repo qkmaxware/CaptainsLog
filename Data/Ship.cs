@@ -14,6 +14,7 @@ public class Ship {
     public string? BackgroundImageUrl;
     public string? Name;
     public string? Registry;
+    public string? Faction;
     public string? Specialization;
     public string? ClassName;
     public int Size;
@@ -22,6 +23,7 @@ public class Ship {
     public VesselAttributes Attributes;
     public Disciplines Disciplines;
 
+    public List<string>? Traits;
     public List<string>? Features;
 
     private static Random rng = new Random();
@@ -41,5 +43,9 @@ public class Ship {
                 Department.Default()
             }
         };
+    }
+
+    public override string ToString() {
+        return $"{Name} {Registry}";
     }
 }

@@ -1,0 +1,22 @@
+<div class="w3-animate-zoom drawer @(isVisible ? "w3-show" : "w3-hide")">
+    @ChildContent
+    <div class="fixed-bottom w3-center w3-padding">
+        <button class="w3-button circle lcars-primary" style="float: center;" @onclick=Hide><img src="ui/exit.svg" class="icon"></button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent {get; set;}
+
+    private bool isVisible = false;
+
+    public void Show() {
+        this.isVisible = true;
+        StateHasChanged();
+    }
+
+    public void Hide() {
+        this.isVisible = false;
+        StateHasChanged();
+    }
+}

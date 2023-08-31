@@ -1,0 +1,22 @@
+.drawer {
+    background-color: #23272a;
+    color: white;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20; 
+}
+
+.fixed-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+button {
+    pointer-events: all;
+}

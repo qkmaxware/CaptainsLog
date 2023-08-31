@@ -1,0 +1,306 @@
+@inject IJSRuntime js
+
+<SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
+    @if (!ReferenceEquals(ship, null)) {
+    <div class="header w3-row w3-padding w3-large">
+        <div class="w3-col w3-right" style="width: 9em">
+            <input class="w3-input" @bind=@ship.Registry>
+        </div>
+        <div class="w3-rest">
+            <input class="w3-input" @bind=@ship.Name>
+        </div>
+    </div>
+    <div class="art" style="background-image: url('@ship.BackgroundImageUrl');">
+        <img class="vessel" src=@ship.ImageUrl>
+        <div class="bar">
+            <div class="actions">
+                <div class="w3-flat inline w3-green">
+                    <span style="padding: 8px 0px 8px 16px;">Image</span>
+                    <label class="w3-button w3-green" style="padding: 8px;">
+                        <img src="assets/load.png" class="icon">
+                        <InputFile style="display:none;" OnChange=@(async (e) => await loadImageFor(ship, e)) type="image" />
+                    </label>
+                    | 
+                    <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseImageFor(ship))><img src="assets/gallery.png" class="icon"></button>
+                </div>
+                <div class="w3-flat inline w3-green">
+                    <span style="padding: 8px 0px 8px 16px;">Background</span>
+                    <label class="w3-button w3-green" style="padding: 8px;">
+                        <img src="assets/load.png" class="icon">
+                        <InputFile style="display:none;" OnChange=@(async (e) => await loadBgFor(ship, e)) type="image" />
+                    </label>
+                    | 
+                    <button class="w3-button w3-green" style="padding: 8px;" @onclick=@(() => browseBgFor(ship))><img src="assets/gallery.png" class="icon"></button>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+    </div>
+    <div class="details">
+        <TitleBlock Title="Registry">
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Name</label></div>
+                <div class="w3-rest"><input type="text" class="w3-input" placeholder="Name" @bind=@ship.Name/></div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Number</label></div>
+                <div class="w3-rest"><input type="text" class="w3-input" @bind=@ship.Registry></div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Issuer</label></div>
+                <div class="w3-rest"><input type="text" class="w3-input" @bind=@ship.Faction></div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Class</label></div>
+                <div class="w3-rest"><input type="text" class="w3-input" placeholder="Class Unknown" @bind=@ship.ClassName/></div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Scale</label></div>
+                <div class="w3-rest"><input type="number" class="w3-input" @bind=ship.Size></div>
+            </div>
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Specialization</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" placeholder="Generic Specialization" list=specialization_suggestions @bind=@ship.Specialization/>
+                    <datalist id="specialization_suggestions">
+                        @foreach (var spec in Specializations.All) {
+                            <option value="@spec.Name">@(spec.Description ?? spec.Name)</option>
+                        }
+                    </datalist>
+                </div>
+            </div>
+        </TitleBlock>
+        <TitleBlock Title="Statistics">
+        <div id="statistics" class="w3-row">
+            <div class="w3-col s6">
+                <div class="stat attribute">
+                    <div class="title">Comms</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Comms/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Computers</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Computers/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Engines</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Engines/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Sensors</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Sensors/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Structure</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Structure/></div>
+                </div>
+                <div class="stat attribute">
+                    <div class="title">Weapons</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Attributes.Weapons/></div>
+                </div>
+            </div>
+            <div class="w3-col s6">
+                <div class="stat discipline">
+                    <div class="title">Command</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Command/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Conn</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Conn/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Security</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Security/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Engineering</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Engineering/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Science</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Science/></div>
+                </div>
+                <div class="stat discipline">
+                    <div class="title">Medicine</div>
+                    <div class="parallelogram">&nbsp;</div>
+                    <div class="value"><input type="number" @bind=ship.Disciplines.Medicine/></div>
+                </div>
+            </div>
+        </div>
+        </TitleBlock>
+        <TitleBlock Title="Traits">
+            <textarea @bind=traits></textarea>
+        </TitleBlock>
+        <TitleBlock Title="Talents">
+            <textarea @bind=talents></textarea>
+        </TitleBlock>
+    </div>
+    }
+</SlideDrawer>
+
+<Modal @ref=shipArtModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var clazz in VesselClasses.All) {
+            if (!ReferenceEquals(clazz, null)) {
+                foreach (var art in clazz.Icons.EnumerateArtwork()) {
+                    var self = art;
+                    <button title="@clazz.Faction - @clazz.Name" class="w3-button w3-flat" style="@(shipArtSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipArtSelected = self)><img src="@self" class="gallery"></button>
+                }
+            }
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => shipArtModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectShipImageFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+<Modal @ref=shipBgModal>
+    <Head>
+        <h2 class="w3-container">Art Gallery</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        @foreach (var image in Backgrounds.All) {
+            var self = image;
+            <button class="w3-button w3-flat" style="@(shipBgSelected == self ? "border: 1px solid #ff7700": String.Empty)" @onclick=@(() => shipBgSelected = self)><img src="@self" class="gallery"></button>
+        }
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => shipBgModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=selectShipBgFromGallery>Select</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+@code {
+    [Parameter] public IAppDataProvider? DataProvider {get; set;}
+    
+    private Ship? ship;
+    private SlideDrawer? drawer;
+
+    public void Show(Ship ship) {
+        this.ship = ship;
+        drawer?.Show();
+    }
+
+    private string traits {
+        get => string.Join(", ", ship?.Traits ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(ship, null)) {
+                if (ReferenceEquals(ship.Traits, null)) {
+                    ship.Traits = new List<string>();
+                }
+
+                ship.Traits.Clear();
+                ship.Traits.AddRange(feats);
+            }
+        }
+    }
+    private string talents {
+        get => string.Join(", ", ship?.Features ?? Enumerable.Empty<string>());
+        set {
+            var feats = value.Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (!ReferenceEquals(ship, null)) {
+                if (ReferenceEquals(ship.Features, null)) {
+                    ship.Features = new List<string>();
+                }
+
+                ship.Features.Clear();
+                ship.Features.AddRange(feats);
+            }
+        }
+    }
+
+    private Modal? shipArtModal;
+    private Ship? shipArtModalShip;
+    private string? shipArtSelected = null;
+    private void browseImageFor(Ship? character) {
+        shipArtSelected = null;
+        shipArtModalShip = character;
+        shipArtModal?.Show();
+    }
+    private void selectShipImageFromGallery() {
+        if (!ReferenceEquals(shipArtModalShip, null)) {
+            shipArtModalShip.ImageUrl = shipArtSelected;
+        }
+        shipArtModal?.Hide();
+    }
+    private Modal? shipBgModal;
+    private Ship? shipBgModalShip;
+    private string? shipBgSelected = null;
+    private void browseBgFor(Ship? character) {
+        shipBgSelected = null;
+        shipBgModalShip = character;
+        shipBgModal?.Show();
+    }
+    private void selectShipBgFromGallery() {
+        if (!ReferenceEquals(shipBgModalShip, null) && !ReferenceEquals(shipBgSelected, null)) {
+            shipBgModalShip.BackgroundImageUrl = shipBgSelected; // Can never NULL this (hopefully)
+        }
+        shipBgModal?.Hide();
+    }
+
+    private async Task loadImageFor(Ship? ship, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(ship, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                ship.ImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+    private async Task loadBgFor(Ship? ship, InputFileChangeEventArgs e) {
+        if (ReferenceEquals(ship, null))
+            return;
+        
+        try {
+            using MemoryStream ms = new MemoryStream();
+            foreach (var path in e.GetMultipleFiles(1)) {
+                await path.OpenReadStream(maxAllowedSize: 512000 * 4).CopyToAsync(ms);
+                var b64 = Convert.ToBase64String(ms.ToArray());
+                var ext = System.IO.Path.GetExtension(path.Name).Substring(1);
+                var dataUrl = "data:image/" + ext + ";base64," + b64;
+                ship.BackgroundImageUrl = dataUrl;
+            }
+            StateHasChanged();
+        } catch (Exception ex) {
+            await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+}

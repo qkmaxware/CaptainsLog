@@ -96,3 +96,65 @@ img.icon {
     cursor: pointer;
     white-space: nowrap;
 }
+
+.fixed-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+button {
+    pointer-events: all;
+}
+
+a {
+    pointer-events: all;
+}
+
+.w3-button.circle {
+    padding: 16px 20px;
+    border-radius: 50%;
+}
+
+.lcars-font {
+    font-family: 'Impact', Tahoma, sans-serif;
+}
+
+.lcars-primary {
+    background-color: #ff7700;
+    color: black;
+}
+
+.lcars-primary-darker {
+    background-color: #ba5700;
+    color: white;
+}
+
+
+.lcars-secondary {
+    background-color: #7788ff;
+    color: black;
+}
+
+.lcars-warning {
+    background-color: #ff2200;
+    color: black;
+}
+
+.round-top-left {
+    border-top-left-radius: 25px;
+}
+
+.round-bottom-left {
+    border-bottom-left-radius: 25px;
+}
+
+.round-top-right {
+    border-top-right-radius: 25px;
+}
+
+.round-bottom-right {
+    border-bottom-right-radius: 25px;
+}

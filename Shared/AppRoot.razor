@@ -1,0 +1,395 @@
+@inject IJSRuntime js
+@inject Js.LocalStorage storage
+@inject Js.Alerts alert
+@implements IAppDataProvider
+
+<Starfield></Starfield>
+<main class="w3-animate-zoom">
+    <TabView AutoSelectTab=1>
+        <Tab Title="Vessels">
+            <TitleBlock Title="Filter">
+                @if (!ReferenceEquals(data.Fleet?.Ships, null)) {
+                    <div class="w3-row">
+                        <div class="w3-col" style="width: 8em"><label>Faction</label></div>
+                        <div class="w3-rest">
+                            <select class="w3-select" @bind=factionFilter>
+                                <option selected value>Any</option>
+                                @foreach (var faction in enumerateFactions()) {
+                                    if (!string.IsNullOrEmpty(faction)) {
+                                        <option>@faction</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+            </TitleBlock>
+            @if (!ReferenceEquals(data.Fleet?.Ships, null)) {
+                foreach (var ship in filteredVessels()) {
+                    var self = ship;
+                    <button title="@(ship.Name) - @(ship.Registry)" class="w3-button w3-round-xlarge list-item" @onclick=@(() => showShip(self))>
+                        <img src="@ship.ImageUrl">
+                    </button>
+                }
+            }
+            <button title="New Ship" class="w3-button w3-display-container w3-round-xlarge list-item new-item" @onclick=openShipWizard>
+                <span class="w3-display-middle w3-xlarge">+</span>
+            </button>
+        </Tab>
+        <Tab Title="Your Adventure">
+            @if (!ReferenceEquals(data.Fleet, null)) {
+                Ship? pcVessel;
+                Department? pcDepartment;
+                Character? pcCharacter;
+                var found = data.FindFavoriteCharacter(out pcVessel, out pcDepartment, out pcCharacter);
+                if (!ReferenceEquals(pcCharacter, null)) { 
+                    <div class=" w3-padding">
+                        <div class="w3-round-xlarge w3-padding lcars-primary">
+                            <span class="w3-large w3-padding">@pcCharacter.Name</span>
+                            <span class="w3-margin-left w3-round-xlarge w3-padding w3-right w3-small lcars-primary-darker" style="margin-top: -4px">@pcCharacter.Rank</span>
+                        </div>
+                    </div>
+                }
+                <div class="w3-center">
+                    
+                </div>
+                
+                <div class="adventure-ship">
+                    @if (!ReferenceEquals(pcVessel, null)) {
+                        <img src="@pcVessel.ImageUrl">
+                    }
+                </div>
+                <div class="adventure-player">
+                    @if (!ReferenceEquals(pcCharacter, null)) {
+                        <img src="@pcCharacter.ImageUrl">
+                    }
+                </div>   
+            }
+        </Tab>
+        <Tab Title="Characters">
+            <TitleBlock Title="Filter">
+                @if (!ReferenceEquals(data.Fleet?.Ships, null)) {
+                <div class="w3-row">
+                    <div class="w3-col" style="width: 8em"><label>Vessel</label></div>
+                    <div class="w3-rest">
+                        <select class="w3-select" @bind=shipFilter>
+                            <option selected value>Any</option>
+                            @foreach (var ship in this.data.Fleet.Ships) {
+                                <option value="@(ship.Name) @(ship.Registry)">@ship.Name @ship.Registry</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="w3-row">
+                    <div class="w3-col" style="width: 8em"><label>Department</label></div>
+                    <div class="w3-rest">
+                        <select class="w3-select" @bind=deptFilter>
+                            <option selected value>Any</option>
+                            @foreach (var deptName in enumerateDepartments()) {
+                                if (!string.IsNullOrEmpty(deptName)) {
+                                <option>@deptName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                }
+            </TitleBlock>
+            @if (!ReferenceEquals(data.Fleet, null)) {
+                foreach (var actor in filteredCharacters()) {
+                    var self = actor;
+                    <button title="@(actor.Rank.GetName()) @(actor.Name)" class="w3-button w3-round-xlarge list-item" @onclick=@(() => showActor(self))>
+                        <img src="@actor.ImageUrl" width=128 height=128>
+                    </button>
+                }
+            }
+            <button title="New Ship" class="w3-button w3-display-container w3-round-xlarge list-item new-item" @onclick=openActorWizard>
+                <span class="w3-display-middle w3-xlarge">+</span>
+            </button>
+        </Tab>
+    </TabView>
+
+    <ShipPopup @ref=shipDrawer DataProvider=@this></ShipPopup>
+    <CharacterPopup @ref=actorDrawer DataProvider=@this></CharacterPopup>
+    <AppSettings @ref=appSettings DataProvider=@this></AppSettings>
+
+    <div class="fixed-bottom w3-center w3-padding">
+        <button class="w3-button circle lcars-primary" style="float: center;" @onclick=openAppSettings><img src="ui/menu.svg" class="icon"></button>
+    </div>
+    <div class="fixed-bottom w3-padding">
+        <a class="w3-button circle lcars-secondary" href="https://github.com/qkmaxware/CaptainsLog/wiki" target="_blank"><img src="ui/help.svg" class="icon"></a>
+    </div>
+</main>
+
+<Modal @ref=newVesselModal>
+    <Head>
+        <h2 class="w3-container">New Vessel</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        <div class="w3-row">
+            <div class="w3-col" style="width: 8em"><label>Name</label></div>
+            <div class="w3-rest">
+                <input type="text" class="w3-input" placeholder="Name" @bind=@newVesselName/>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col" style="width: 8em"><label>Registry</label></div>
+            <div class="w3-rest">
+                <input type="text" class="w3-input" placeholder="Registry Number" @bind=@newVesselRegistry/>
+            </div>
+        </div>
+    </Body>
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => newVesselModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=makeShip>Create</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+<Modal @ref=newCharacterModal>
+    <Head>
+        <h2 class="w3-container">New Character</h2>
+        <div class="lcars-primary round-bottom-right round-bottom-left round-top-left round-top-right"; style="margin-left: 16px; margin-right: 16px;">&nbsp;</div>
+    </Head>
+    <Body>
+        <div class="w3-row">
+            <div class="w3-col" style="width: 8em"><label>Name</label></div>
+            <div class="w3-rest">
+                <input type="text" class="w3-input" placeholder="Name" @bind=@newActorName/>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col" style="width: 8em"><label>Vessel</label></div>
+            <div class="w3-rest">
+                <select class="w3-select" @bind=newActorAssignment>
+                    <option hidden disabled selected value>-- select an vessel --</option>
+                    @foreach (var ship in data.Fleet?.Ships ?? Enumerable.Empty<Ship>()) {
+                        <option value="@ship.Registry">@ship.Name @ship.Registry</option>
+                    }
+                </select>
+            </div>
+        </div>
+        @{
+            var newActorSelectedVessel = data.FindShipWithRegistryNumber(newActorAssignment);
+        }
+        @if (!ReferenceEquals(newActorSelectedVessel, null)) {
+            <div class="w3-row">
+                <div class="w3-col" style="width: 8em"><label>Department</label></div>
+                <div class="w3-rest">
+                    <input type="text" class="w3-input" list=department_suggestions placeholder="Name" @bind=@newActorDept/>
+                    <datalist id="department_suggestions">
+                        @if (!ReferenceEquals(newActorSelectedVessel?.Departments, null)) {
+                            @foreach (var dept in newActorSelectedVessel.Departments) {
+                                <option>@dept.Name</option>
+                            }
+                        }
+                    </datalist>
+                </div>
+            </div>
+        }
+    </Body> 
+    <Footer>
+        <div class="w3-row">
+            <div class="w3-half">
+                <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => newCharacterModal?.Hide())>Cancel</button>
+            </div>
+            <div class="w3-half">
+                <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=makeActor>Create</button>
+            </div>
+        </div>
+    </Footer>
+</Modal>
+
+@code {
+    private AppData data = new AppData();
+    public AppData GetAppData() => data;
+    public void LoadAppData(AppData data) {
+        this.data = data;
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool first) {
+        if (first) {
+            await load();
+        }
+    }
+    private async Task load() {
+        try {
+            var data = await storage.Load<AppData>("treksharp.captainlog");
+            this.data = data;
+        } catch {}
+    }
+    public void Save() {
+        InvokeAsync(save);
+    }
+    private async Task save() {
+        try {
+            await storage.SaveAs<AppData>("treksharp.captainlog", this.data);
+        } catch (Exception e) {
+            await alert.Alert(e.Message);
+        }
+    }
+
+    private AppSettings? appSettings;
+    private void openAppSettings() => appSettings?.Open();
+
+
+    private ShipPopup? shipDrawer;
+    private void showShip(Ship ship) {
+        shipDrawer?.Show(ship);
+    }
+    private Modal? newVesselModal;
+    private string? newVesselName;
+    private string? newVesselRegistry;
+    private void openShipWizard() {
+        newVesselName = null;
+        newVesselRegistry = Ship.GenRegistry();
+        newVesselModal?.Show();
+    }
+    private async Task makeShip() {
+        if (ReferenceEquals(data.Fleet, null)) 
+            data.Fleet = new Fleet();
+        if (ReferenceEquals(data.Fleet.Ships, null))
+            data.Fleet.Ships = new List<Ship>();
+            
+        if (string.IsNullOrEmpty(newVesselName))
+            return;
+
+        if (string.IsNullOrEmpty(newVesselRegistry))
+            return;
+              
+        var clazz = VesselClasses.RandomStarfleet();
+        var spec = Specializations.Random();
+        var ship = new Ship {
+            ImageUrl = clazz.Icons.GetPreferredArtwork(),
+            BackgroundImageUrl = Backgrounds.Random(),
+            Name = newVesselName,
+            Faction = clazz.Faction,
+            Registry = newVesselRegistry,
+            ClassName = clazz.Name,
+            Specialization = spec.Name,
+            Size = clazz.Scale,
+            Departments = new List<Department>{
+                Department.Default()
+            }
+        };
+        data.Fleet.Ships.Add(ship);
+        newVesselModal?.Hide();
+        showShip(ship);
+        await save();
+    }
+
+    private CharacterPopup? actorDrawer;
+    private void showActor(Character actor) {
+        actorDrawer?.Show(actor);
+    }
+    private Modal? newCharacterModal;
+    private string? newActorName;
+    private string? newActorAssignment;
+    private string? newActorDept;
+    private void openActorWizard() {
+        newActorName = null;
+        newActorAssignment = null;
+        newActorDept = null;
+        newCharacterModal?.Show();
+    }
+    private async Task makeActor() {
+        if (ReferenceEquals(newActorName, null)) {
+            return;
+        }
+        if (ReferenceEquals(newActorAssignment, null)) {
+            return;
+        }
+        if (ReferenceEquals(newActorDept, null)) {
+            return;
+        }
+
+        var ship = data.FindShipWithRegistryNumber(newActorAssignment);
+        if (ReferenceEquals(ship, null)) {
+            return;
+        }
+        
+        // Get or make department
+        if (ReferenceEquals(ship.Departments, null)) {
+            ship.Departments = new List<Department>();
+        }
+
+        var dept = ship.Departments.Where(dept => dept.Name == newActorDept).FirstOrDefault();
+        if (ReferenceEquals(dept, null)) {
+            dept = new Department {
+                Name = newActorDept,
+                Characters = new List<Character>()
+            };
+            ship.Departments.Add(dept);
+        }
+        var first = data.EnumerateCharacters().FirstOrDefault();
+        var actor = new Character {
+            IsFavorite = (ReferenceEquals(first, null) ? true : false),
+            ImageUrl = Avatars.RandomCommander(),
+            Rank = Rank.Captain,
+            Division = Division.Command,
+            Name = newActorName,
+            Assignment = "Commanding Officer",
+            Focuses = new List<string>()
+        };
+        dept.Characters?.Add(
+            actor
+        );
+        newCharacterModal?.Hide();
+        showActor(actor);
+        await save();
+    }
+
+    private IEnumerable<string?> enumerateFactions() {
+        return data.Fleet?.Ships?.Select(ship => ship.Faction)?.Distinct() ?? Enumerable.Empty<string?>();
+    }
+
+    private IEnumerable<string?> enumerateDepartments() {
+        return data.Fleet?.Ships?.Where(ship => !ReferenceEquals(ship.Departments, null))?.SelectMany(ship => ship?.Departments).Select(dept => dept.Name)?.Distinct() ?? Enumerable.Empty<string?>();
+    }
+
+    private string? factionFilter;
+    private IEnumerable<Ship> filteredVessels() {
+        foreach (var ship in data.EnumerateVessels()) {
+            if (string.IsNullOrEmpty(factionFilter) || ship.Faction == factionFilter) {
+                yield return ship;
+            }
+        }
+    }
+
+    private string? shipFilter;
+    private string? deptFilter;
+    private IEnumerable<Character> filteredCharacters() {
+        foreach (var ship in data.EnumerateVessels()) {
+            if (ReferenceEquals (ship, null)) {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(shipFilter) || ship.ToString() == shipFilter) {
+                // Yes, use this ship
+                if(ReferenceEquals(ship.Departments, null)) {
+                    continue;
+                }
+                
+                foreach (var dept in ship.Departments) {
+                    if (string.IsNullOrEmpty(deptFilter) || dept.Name == deptFilter) {
+                        // Yes use this department
+                        if (ReferenceEquals(dept.Characters, null)) {
+                            continue;
+                        }
+
+                        foreach (var character in dept.Characters) {
+                            yield return character;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

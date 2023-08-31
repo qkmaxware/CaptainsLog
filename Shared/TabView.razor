@@ -1,0 +1,53 @@
+<div class="tabview">
+    <header class="tabs">
+        @foreach (var tab in this.tabs) {
+            <button class="w3-button tab @(tab == activeTab ? "active" : string.Empty)" @onclick=@(() => select(tab))>@tab.Title</button>
+        }
+    </header>
+    <div class="content w3-padding">
+        <CascadingValue Value="this">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent {get; set;}
+
+    [Parameter] public int AutoSelectTab { get; set; }
+    private int active = -1;
+    private List<Tab> tabs = new List<Tab>();
+    private Tab? activeTab => active >= 0 && active < tabs.Count ? tabs[active] : null; 
+
+    protected override void OnAfterRender(bool first) {
+        if (first && active != AutoSelectTab) {
+            active = AutoSelectTab;
+            StateHasChanged();
+        }
+    }
+
+    public void Add(Tab tab) {
+        if (!this.tabs.Contains(tab)) {
+            this.tabs.Add(tab);
+            if (this.tabs.Count == 1 && active == -1) {
+                active = 0;
+            }
+            StateHasChanged();
+        }
+    }
+    public void Remove(Tab tab) {
+        this.tabs.Remove(tab);
+        if (active >= this.tabs.Count) {
+            active = this.tabs.Count - 1;
+        }
+        StateHasChanged();
+    }
+    public bool IsVisible(Tab tab) {
+        return this.activeTab == tab;
+    }
+
+    private void select(Tab tab) {
+        this.active = this.tabs.IndexOf(tab);
+    }
+}
