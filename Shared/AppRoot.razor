@@ -148,10 +148,10 @@
     </Body>
     <Footer>
         <div class="w3-row">
-            <div class="w3-half">
+            <div class="w3-col s6">
                 <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => newVesselModal?.Hide())>Cancel</button>
             </div>
-            <div class="w3-half">
+            <div class="w3-col s6">
                 <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=makeShip>Create</button>
             </div>
         </div>
@@ -202,10 +202,10 @@
     </Body> 
     <Footer>
         <div class="w3-row">
-            <div class="w3-half">
+            <div class="w3-col s6">
                 <button class="w3-button lcars-secondary round-bottom-left lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=@(() => newCharacterModal?.Hide())>Cancel</button>
             </div>
-            <div class="w3-half">
+            <div class="w3-col s6">
                 <button class="w3-button lcars-primary round-bottom-right lcars-margin-up lcars-pad-right" style="width: 100%;" @onclick=makeActor>Create</button>
             </div>
         </div>
@@ -238,7 +238,7 @@
         }
     }
     public void Save() {
-        InvokeAsync(save);
+        Task.Run(save);
     }
     private async Task save() {
         try {
