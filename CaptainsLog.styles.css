@@ -560,6 +560,44 @@ select:focus[b-6wmp8yanm2] {
     border: none;
     text-align: center;
 }
+/* /Shared/Log.razor.rz.scp.css */
+select[b-m6oxnxbad2] {
+    background-color: transparent;
+    color: white;
+    border-bottom: 1px dashed white;
+}
+
+select option[b-m6oxnxbad2] {
+    color: black;
+}
+
+textarea[b-m6oxnxbad2] {
+    resize: vertical; 
+    min-height: 8em; 
+    width: 100%;
+    background: transparent;
+    border: 1px dashed white;
+    color: white;
+}
+
+input[b-m6oxnxbad2] {
+    background-color: transparent;
+    color: white;
+    border-bottom: 1px dashed white;
+}
+
+input:focus[b-m6oxnxbad2] {
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: white;
+}
+
+select:focus[b-m6oxnxbad2] {
+    border: none;
+    outline-offset: 0;
+    outline-width: 1px;
+    outline-color: white;
+}
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-axs8p9ae6d] {
     position: relative;

@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "CaptainsLog.dll": "sha256-krFjxf8i6LN7fOH6RxNPdNOEysYRHZugHzSpgPDKcSY=",
+      "CaptainsLog.dll": "sha256-hrtKGU6YBvGnIIshWtQdq74p4bqrkP0ZG7Mr1zD4o+A=",
       "Microsoft.AspNetCore.Components.dll": "sha256-dg7Tiv7V6g6artIZibOGAJDTXNU0hagLXgqp8+3XjNY=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-fyNPlCc68zCz31X2E8C7q5Qo\/YWraeCk6U7AnjcQYE0=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-8DoJrRX6nRTBkcyndvGcib+RscaEDKjz\/GljZbiwzWA=",
@@ -29,15 +29,16 @@
       "System.ComponentModel.dll": "sha256-PpfESU4nITb1jqR2MM2f7DVoHiQatz0QI8NyEWMSwRw=",
       "System.ComponentModel.Primitives.dll": "sha256-3uMOMngI+VbILsBGe\/TqLsb4frPuOatHk8NT0Q3kpVs=",
       "System.ComponentModel.TypeConverter.dll": "sha256-Y2xokaNxzTJKgLGqNryPU6W85MqkVRWinX139fok0uc=",
+      "System.Console.dll": "sha256-Zp77eeqvOPLMP0TCTYS1Ec0N\/sN8YsRzEYFP4HfWtUM=",
       "System.dll": "sha256-Dk7xQ4Zqn\/2wU4QbDAhlgPpc7jA2D1YoJQJI6arod9g=",
-      "System.Linq.dll": "sha256-i6rkf1HRUu\/MEh8hSsx05yq\/SlR5t6dm9SzqqrwWug0=",
+      "System.Linq.dll": "sha256-BDvUK7iDfIT8KoUhw7U9r83hTwJYRhvJdIXg4\/7jL9A=",
       "System.Memory.dll": "sha256-KLyizTVNr5OAaObAHVC88i8JkxTnl6zkSFB0xJtwgEM=",
       "System.Net.Http.dll": "sha256-JVoxp4b342ZNm9h0NfxHvc+GkhRb7c+kfCQJAPAMMZ4=",
       "System.Net.Primitives.dll": "sha256-s+5DbwuQFwjUmtfnDXL\/Hyra3ajgNyaZg8FIuWonkQ0=",
       "System.ObjectModel.dll": "sha256-BkOYD3UG56tl2Qr\/FwjcneTSNKQrgka2qGUMoh8U51c=",
-      "System.Private.CoreLib.dll": "sha256-89LfpyCaNC2rLeZZ9KN0YNgK8C4BU7VaJa3NeAfvqsU=",
+      "System.Private.CoreLib.dll": "sha256-WnggZQ4VoFwPkbjILBMK\/\/tIjNtVY1RrSr\/TAD\/wrrA=",
       "System.Private.Uri.dll": "sha256-A1t2SWWLvaFykvJwZecAM2nJVqVWMIrbnolBAA7yhXU=",
-      "System.Runtime.dll": "sha256-Xz\/J+1oN5QoapoYUqyb1eyp1zhIytLGEgPs+GPVqfaI=",
+      "System.Runtime.dll": "sha256-zc\/IeAAK3UKXDrdg02TbVElo5uGJ9ovZHD8OPNTaJuQ=",
       "System.Runtime.InteropServices.JavaScript.dll": "sha256-seKkJcV23+2CsUE55lbJKcSEDRa6WLn\/WkOcfY0GrYU=",
       "System.Text.Encodings.Web.dll": "sha256-KwxETxZvEIN+F2cFoOmczAYLy\/vNVDN4Xr11FOMxkVM=",
       "System.Text.Json.dll": "sha256-r6xB9rR6jL20LQoP3pGzauHZe\/8okcqVoLkY8cWpMhY="
