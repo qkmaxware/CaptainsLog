@@ -1,0 +1,65 @@
+<SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
+    <TabView>
+        <Tab Title="New Entry">
+            <label>Stardate</label>
+            
+            <label>Title</label>
+            <input type="text" class="w3-input" placeholder="Title" @bind=@newEntry.Title/>
+            <label>Contents</label>
+            <textarea @bind=@newEntry.Primary.WrittenEntry></textarea>
+            <div class="w3-padding">
+                <button class="w3-button lcars-primary" style="width: 100%;" @onclick=addEntry>End Log</button>
+            </div>
+        </Tab>
+        <Tab Title="Entries">
+            @if (!ReferenceEquals(log?.Items, null)) {
+                foreach (var entry in ((IEnumerable<LogEntry>)log.Items).Reverse()) {
+                    var self = entry;
+                    var title = $"Stardate {entry.Stardate}";
+                    if (!ReferenceEquals(self, null)) {
+                    <TitleBlock Title=@title>
+                        <p>
+                            @entry.Primary.WrittenEntry
+                        </p>
+                        <details>
+                            <summary>Supplemental</summary>
+                            <textarea @bind=@self.Supplemental.WrittenEntry></textarea>
+                        </details>
+                    </TitleBlock>
+                    }
+                }
+            }
+        </Tab>
+    </TabView>
+</SlideDrawer>
+
+@code {
+    [Parameter] public IAppDataProvider? DataProvider {get; set;}
+    
+    private SlideDrawer? drawer;
+    private PersonalLog? log;
+
+    private LogEntry newEntry = new LogEntry();
+
+    public void Show() {
+        var data = DataProvider?.GetAppData();
+        var log = data?.Log;
+        if (ReferenceEquals(log, null) && !ReferenceEquals(data, null)) {
+            log = new PersonalLog();
+            data.Log = log;
+        }
+        this.log = log ?? new PersonalLog();
+
+        if (ReferenceEquals(log.Items, null)) {
+            log.Items = new List<LogEntry>();
+        }
+
+        drawer?.Show();
+    }
+
+    private void addEntry() {
+        newEntry.CreatedOn = DateTime.Now;
+        log.Items?.Add(newEntry);
+        this.newEntry = new LogEntry();
+    }
+}

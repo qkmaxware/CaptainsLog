@@ -1,0 +1,37 @@
+select {
+    background-color: transparent;
+    color: white;
+    border-bottom: 1px dashed white;
+}
+
+select option {
+    color: black;
+}
+
+textarea {
+    resize: vertical; 
+    min-height: 8em; 
+    width: 100%;
+    background: transparent;
+    border: 1px dashed white;
+    color: white;
+}
+
+input {
+    background-color: transparent;
+    color: white;
+    border-bottom: 1px dashed white;
+}
+
+input:focus {
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: white;
+}
+
+select:focus {
+    border: none;
+    outline-offset: 0;
+    outline-width: 1px;
+    outline-color: white;
+}

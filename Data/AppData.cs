@@ -11,6 +11,7 @@ public interface IAppDataProvider {
 
 public class AppData {
     public Fleet? Fleet;
+    public PersonalLog? Log;
 
     public IEnumerable<Ship> EnumerateVessels() {
         if (ReferenceEquals(Fleet, null) || ReferenceEquals(Fleet.Ships, null)) {

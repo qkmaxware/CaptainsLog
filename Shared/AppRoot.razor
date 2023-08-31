@@ -52,7 +52,7 @@
                 }
                 <div class="w3-center">
                     <span class="quicklink">
-                        <button class="w3-button circle lcars-primary"><img src="ui/log.svg" class="icon"></button>
+                        <button class="w3-button circle lcars-primary"><img src="ui/log.svg" class="icon" @onclick=openLog></button>
                         <br>
                         Log
                     </span>
@@ -112,6 +112,8 @@
             </button>
         </Tab>
     </TabView>
+
+    <Log @ref=personalLog DataProvider=@this></Log>
 
     <ShipPopup @ref=shipDrawer DataProvider=@this></ShipPopup>
     <CharacterPopup @ref=actorDrawer DataProvider=@this></CharacterPopup>
@@ -220,14 +222,20 @@
 
     protected override async Task OnAfterRenderAsync(bool first) {
         if (first) {
+            Console.WriteLine("loading data");
+            var old = this.data;
             await load();
+            if (this.data != old) {
+                StateHasChanged();
+            }
         }
     }
     private async Task load() {
         try {
-            var data = await storage.Load<AppData>("treksharp.captainlog");
-            this.data = data;
-        } catch {}
+            this.data = await storage.Load<AppData>("treksharp.captainlog");
+        } catch (Exception e) {
+            Console.WriteLine(e);
+        }
     }
     public void Save() {
         InvokeAsync(save);
@@ -395,5 +403,10 @@
                 }
             }
         }
+    }
+
+    private Log? personalLog;
+    private void openLog() {
+        personalLog?.Show();
     }
 }
