@@ -149,7 +149,7 @@ select:focus[b-zfrgpyn35k] {
     bottom: 0;
     left: 0;
     width: 100%;
-    max-height: 640px;
+    max-height: 50vh;
     object-fit: contain;
     pointer-events: none;
     user-select: none;
@@ -1032,6 +1032,7 @@ select:focus[b-wdiqbwtu50] {
     bottom: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 20; 
     overflow-y: auto;
 }
@@ -1141,7 +1142,9 @@ section[b-8hiccmdwe0] {
     bottom: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 20; 
+    overflow-y: auto;
 }
 
 .fixed-bottom[b-xo8o4epu15] {
