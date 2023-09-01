@@ -56,6 +56,11 @@
                         <br>
                         Log
                     </span>
+                    <span class="quicklink">
+                        <button class="w3-button circle lcars-primary"><img src="ui/dice.svg" class="icon" @onclick=openRoller></button>
+                        <br>
+                        Dice Roller
+                    </span>
                 </div>
                 
                 <div class="adventure-ship">
@@ -114,6 +119,7 @@
     </TabView>
 
     <Log @ref=personalLog DataProvider=@this></Log>
+    <DiceRoller @ref=roller></DiceRoller>
 
     <ShipPopup @ref=shipDrawer DataProvider=@this></ShipPopup>
     <CharacterPopup @ref=actorDrawer DataProvider=@this></CharacterPopup>
@@ -417,5 +423,10 @@
     private Log? personalLog;
     private void openLog() {
         personalLog?.Show();
+    }
+
+    private DiceRoller? roller;
+    private void openRoller() {
+        roller?.Show();
     }
 }

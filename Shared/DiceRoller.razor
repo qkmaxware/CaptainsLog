@@ -1,0 +1,82 @@
+@using CaptainsLog.Shared.Dice3d
+
+<SlideDrawer @ref=drawer>
+    <TabView>
+        <Tab Title="Dice Roller">
+            <TitleBlock Title="Add Dice">
+                <div class="w3-center">
+                    <button title="D6" class="w3-button w3-flat w3-display-container" @onclick=addD6>
+                        <img src="ui/d6.png" width=32>
+                        <span class="w3-display-middle">
+                            6
+                        </span>
+                    </button>
+                    <button title="D6 Challenge Die" class="w3-button w3-flat w3-display-container" @onclick=addChallenge>
+                        <img src="ui/d6.png" width=32>
+                        <span class="w3-display-middle">
+                            <img src="ui/challenge-effect.png" style="width: 1em">
+                        </span>
+                    </button>
+                    <button title="D20" class="w3-button w3-flat w3-display-container" @onclick=addD20>
+                        <img src="ui/d20.png" width=32>
+                        <span class="w3-display-middle">
+                            20
+                        </span>
+                    </button>
+                </div>
+            </TitleBlock>
+            <div class="w3-padding w3-center w3-margin-top">
+                @foreach (var die in this.dices) {
+                    <div style="padding: 8px; display: inline-block;">
+                    @if (die is ChallengeDice cd) {
+                        <DiceChallenge dice=cd OnDiceRoll=StateHasChanged></DiceChallenge>
+                    } else if (die is D6 d6) {
+                        <DiceD6 dice=d6 OnDiceRoll=StateHasChanged></DiceD6>
+                    } else if (die is D20 d20) {
+                        <DiceD20 dice=d20 OnDiceRoll=StateHasChanged></DiceD20>
+                    }
+                    </div>
+                }
+            </div>
+            <div style="text-align: right;">
+                <button class="w3-button w3-round-large lcars-primary" @onclick=reRollDice>
+                    <img src="ui/dice.svg" class="icon">
+                </button>
+                <button class="w3-button w3-round-large lcars-warning" @onclick=clearDice>
+                    <img src="ui/delete.svg" class="icon">
+                </button>
+            </div>
+        </Tab>
+    </TabView>
+</SlideDrawer>
+
+@code {
+    private List<Dice> dices = new List<Dice>() {
+        new D20(),
+        new D20()
+    };
+
+    private SlideDrawer? drawer;
+    public void Show() {
+        drawer?.Show();
+    }
+
+    private void reRollDice() {
+        foreach (var dice in dices) {
+            dice.Roll();
+        }
+    }
+    private void clearDice() {
+        this.dices.Clear();
+    }
+
+    private void addD6() {
+        dices.Add(new D6());
+    }
+    private void addChallenge() {
+        dices.Add(new ChallengeDice());
+    }
+    private void addD20() {
+        dices.Add(new D20());
+    }
+}
