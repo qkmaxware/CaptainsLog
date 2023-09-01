@@ -49,10 +49,11 @@
             log = new PersonalLog();
             data.Log = log;
         }
-        this.log = log ?? new PersonalLog();
+        PersonalLog nonNullLog = log ?? new PersonalLog();
+        this.log = nonNullLog;
 
-        if (ReferenceEquals(log.Items, null)) {
-            log.Items = new List<LogEntry>();
+        if (ReferenceEquals(nonNullLog.Items, null)) {
+            nonNullLog.Items = new List<LogEntry>();
         }
 
         drawer?.Show();
@@ -60,7 +61,7 @@
 
     private void addEntry() {
         newEntry.CreatedOn = DateTime.Now;
-        log.Items?.Add(newEntry);
+        log?.Items?.Add(newEntry);
         this.newEntry = new LogEntry();
     }
 }

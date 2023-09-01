@@ -125,6 +125,9 @@
     <div class="fixed-bottom w3-padding">
         <a class="w3-button circle lcars-secondary" href="https://github.com/qkmaxware/CaptainsLog/wiki" target="_blank"><img src="ui/help.svg" class="icon"></a>
     </div>
+    <div class='fixed-bottom w3-padding @(saving ? "w3-show" : "w3-hide")' style='text-align: right;'>
+        <FlashingDots></FlashingDots>
+    </div>
 </main>
 
 <Modal @ref=newVesselModal>
@@ -222,7 +225,6 @@
 
     protected override async Task OnAfterRenderAsync(bool first) {
         if (first) {
-            Console.WriteLine("loading data");
             var old = this.data;
             await load();
             if (this.data != old) {
@@ -240,10 +242,17 @@
     public void Save() {
         Task.Run(save);
     }
+    private bool saving = false;
     private async Task save() {
         try {
+            saving = true;
+            await InvokeAsync(StateHasChanged);
             await storage.SaveAs<AppData>("treksharp.captainlog", this.data);
+            //await Task.Delay(5000);
+            saving = false;
+            await InvokeAsync(StateHasChanged);
         } catch (Exception e) {
+            saving = false;
             await alert.Alert(e.Message);
         }
     }
@@ -363,7 +372,7 @@
     }
 
     private IEnumerable<string?> enumerateDepartments() {
-        return data.Fleet?.Ships?.Where(ship => !ReferenceEquals(ship.Departments, null))?.SelectMany(ship => ship?.Departments).Select(dept => dept.Name)?.Distinct() ?? Enumerable.Empty<string?>();
+        return data.Fleet?.Ships?.Where(ship => !ReferenceEquals(ship.Departments, null))?.SelectMany(ship => ship?.Departments ?? Enumerable.Empty<Department>()).Select(dept => dept.Name)?.Distinct() ?? Enumerable.Empty<string?>();
     }
 
     private string? factionFilter;
