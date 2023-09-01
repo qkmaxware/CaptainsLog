@@ -560,6 +560,53 @@ select:focus[b-6wmp8yanm2] {
     border: none;
     text-align: center;
 }
+/* /Shared/FlashingDots.razor.rz.scp.css */
+.dot-flashing[b-f3atm8x996] {
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing-b-f3atm8x996 1s infinite linear alternate;
+    animation-delay: 0.5s;
+  }
+  .dot-flashing[b-f3atm8x996]::before, .dot-flashing[b-f3atm8x996]::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+  }
+  .dot-flashing[b-f3atm8x996]::before {
+    left: -15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing-b-f3atm8x996 1s infinite alternate;
+    animation-delay: 0s;
+  }
+  .dot-flashing[b-f3atm8x996]::after {
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #9880ff;
+    color: #9880ff;
+    animation: dot-flashing-b-f3atm8x996 1s infinite alternate;
+    animation-delay: 1s;
+  }
+  
+  @keyframes dot-flashing-b-f3atm8x996 {
+    0% {
+      background-color: #9880ff;
+    }
+    50%, 100% {
+      background-color: rgba(152, 128, 255, 0.2);
+    }
+  }
 /* /Shared/Log.razor.rz.scp.css */
 select[b-m6oxnxbad2] {
     background-color: transparent;
