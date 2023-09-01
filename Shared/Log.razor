@@ -1,10 +1,10 @@
 <SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
     <TabView>
         <Tab Title="New Entry">
-            <label>Stardate</label>
-            
+            <label>Stardate @newEntry.Stardate.Stardate()</label>
+            <input type="date" class="w3-input w3-margin-bottom" @bind=@newEntry.Stardate>
             <label>Title</label>
-            <input type="text" class="w3-input" placeholder="Title" @bind=@newEntry.Title/>
+            <input type="text" class="w3-input w3-margin-bottom" placeholder="Title" @bind=@newEntry.Title/>
             <label>Contents</label>
             <textarea @bind=@newEntry.Primary.WrittenEntry></textarea>
             <p>Tip: use your phone's speech to text functionality to narrate your personal log just like in the show!</p>
@@ -16,7 +16,7 @@
             @if (!ReferenceEquals(log?.Items, null)) {
                 foreach (var entry in ((IEnumerable<LogEntry>)log.Items).Reverse()) {
                     var self = entry;
-                    var title = $"Stardate {entry.Stardate}";
+                    var title = $"Stardate {entry.Stardate.Stardate()}";
                     if (!ReferenceEquals(self, null)) {
                     <TitleBlock Title=@title>
                         <p>
@@ -26,6 +26,11 @@
                             <summary>Supplemental</summary>
                             <textarea @bind=@self.Supplemental.WrittenEntry></textarea>
                         </details>
+                        <div style="text-align: right">
+                            <button class="w3-button w3-round-large lcars-warning" @onclick=@(() => log?.Items?.Remove(self))>
+                                <img src="ui/delete.svg" class="icon">
+                            </button>
+                        </div>
                     </TitleBlock>
                     }
                 }
@@ -56,12 +61,20 @@
             nonNullLog.Items = new List<LogEntry>();
         }
 
+        newEntry = new LogEntry();
+        newEntry.Stardate = new DateTime(2371, 1, 1); // Default date for STA
+        if (nonNullLog.Items.Count > 0) {
+            newEntry.Stardate = nonNullLog.Items[nonNullLog.Items.Count - 1].Stardate.AddDays(1); // Next log date
+        }
+
         drawer?.Show();
     }
 
     private void addEntry() {
         newEntry.CreatedOn = DateTime.Now;
         log?.Items?.Add(newEntry);
+        var nextDate = newEntry.Stardate.AddDays(1);
         this.newEntry = new LogEntry();
+        this.newEntry.Stardate = nextDate;
     }
 }

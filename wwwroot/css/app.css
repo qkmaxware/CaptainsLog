@@ -158,3 +158,7 @@ a {
 .round-bottom-right {
     border-bottom-right-radius: 25px;
 }
+
+summary {
+    cursor: pointer;
+}
