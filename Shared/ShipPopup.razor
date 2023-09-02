@@ -144,6 +144,9 @@
         <TitleBlock Title="Talents">
             <textarea @bind=talents></textarea>
         </TitleBlock>
+        @if (!ReferenceEquals(Additions, null)) {
+            @Additions(ship)
+        }
     </div>
     }
 </SlideDrawer>
@@ -199,6 +202,7 @@
 </Modal>
 
 @code {
+    [Parameter] public RenderFragment<Ship?>? Additions {get; set;} 
     [Parameter] public IAppDataProvider? DataProvider {get; set;}
     
     private Ship? ship;
@@ -207,6 +211,10 @@
     public void Show(Ship ship) {
         this.ship = ship;
         drawer?.Show();
+    }
+
+    public void Hide() {
+        drawer?.Hide();
     }
 
     private string traits {

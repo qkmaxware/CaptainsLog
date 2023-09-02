@@ -50,4 +50,11 @@
     private void select(Tab tab) {
         this.active = this.tabs.IndexOf(tab);
     }
+
+    public void Select(int tab) {
+        if (tab >= 0 && tab < this.tabs.Count) {
+            active = tab;
+            StateHasChanged();
+        }
+    }
 }

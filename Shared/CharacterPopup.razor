@@ -195,6 +195,9 @@
         <TitleBlock Title="Focuses">
             <textarea @bind=focuses></textarea>
         </TitleBlock>
+        @if (!ReferenceEquals(Additions, null)) {
+            @Additions(actor)
+        }
     </div>
     }
 </SlideDrawer>
@@ -256,6 +259,7 @@
 </Modal>
 
 @code {
+    [Parameter] public RenderFragment<Character?>? Additions {get; set;}
     [Parameter] public IAppDataProvider? DataProvider {get; set;}
 
     private Character? actor;

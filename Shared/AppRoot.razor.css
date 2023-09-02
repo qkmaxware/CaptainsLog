@@ -80,3 +80,7 @@ select:focus {
     pointer-events: none;
     user-select: none;
 }
+
+table {
+    width: 100%;
+}

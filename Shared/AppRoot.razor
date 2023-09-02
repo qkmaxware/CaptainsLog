@@ -5,7 +5,7 @@
 
 <Starfield></Starfield>
 <main class="w3-animate-zoom">
-    <TabView AutoSelectTab=1>
+    <TabView @ref=tabs AutoSelectTab=1>
         <Tab Title="Vessels">
             <TitleBlock Title="Filter">
                 @if (!ReferenceEquals(data.Fleet?.Ships, null)) {
@@ -127,8 +127,35 @@
     <Log @ref=personalLog DataProvider=@this></Log>
     <DiceRoller @ref=roller></DiceRoller>
 
-    <ShipPopup @ref=shipDrawer DataProvider=@this></ShipPopup>
-    <CharacterPopup @ref=actorDrawer DataProvider=@this></CharacterPopup>
+    <ShipPopup @ref=shipDrawer DataProvider=@this>
+        <Additions>
+            <TitleBlock Title="Departments">
+                <ul class="w3-ul">
+                @if (!ReferenceEquals(context, null) && !ReferenceEquals(context.Departments, null)) {
+                    foreach (var dept in context.Departments) {
+                        <table>
+                            <tr>
+                                <td>
+                                    <input type="text" class="w3-input" @bind=@dept.Name>
+                                </td>
+                                <td style="text-align: right;">
+                                    <button title="See Crew" class="w3-button w3-round-xlarge lcars-secondary" @onclick=@(() => SeeCrewInDepartment(context, dept))><img class="icon" src="ui/people.svg"></button>
+                                    <button title="Delete Department" class="w3-button w3-round-xlarge lcars-warning" @onclick=@(async () => { if (!ReferenceEquals(dept.Characters, null) && dept.Characters.Count > 0) { await alert.Alert("Cannot delete a department with characters assigned. Please reassign all characters before trying again."); } else if(await alert.Confirm("Are you sure you want to delete this department?")) { context.Departments.Remove(dept); } })><img class="icon" src="ui/delete.svg"></button>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                }
+                </ul>
+                <div class="w3-margin-top w3-margin-bottom">
+                    <button title="See Crew" class="w3-button w3-round-xlarge lcars-primary" @onclick=@(() => { if(ReferenceEquals(context.Departments, null)) { context.Departments = new List<Department>(); } context.Departments.Add(new Department { Name = "New Department" }); })>+ Department</button>
+                </div>
+            </TitleBlock>
+        </Additions>
+    </ShipPopup>
+    <CharacterPopup @ref=actorDrawer DataProvider=@this>
+
+    </CharacterPopup>
     <AppSettings @ref=appSettings DataProvider=@this></AppSettings>
 
     <div class="fixed-bottom w3-center w3-padding">
@@ -228,6 +255,8 @@
 </Modal>
 
 @code {
+    private TabView? tabs;
+
     private AppData data = new AppData();
     public AppData GetAppData() => data;
     public void LoadAppData(AppData data) {
@@ -424,6 +453,13 @@
                 }
             }
         }
+    }
+
+    private void SeeCrewInDepartment(Ship ship, Department dept) {
+        shipFilter = ship.ToString();
+        deptFilter = dept.Name;
+        shipDrawer?.Hide();
+        tabs?.Select(2);
     }
 
     private Log? personalLog;
