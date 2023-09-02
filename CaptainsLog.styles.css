@@ -154,6 +154,10 @@ select:focus[b-zfrgpyn35k] {
     pointer-events: none;
     user-select: none;
 }
+
+table[b-zfrgpyn35k] {
+    width: 100%;
+}
 /* /Shared/AppSettings.razor.rz.scp.css */
 .wide[b-8qcmruebrb] {
     width: 100%
