@@ -6,7 +6,7 @@ public class LocalStorage : JSInterop {
     public LocalStorage(IJSRuntime js) : base(js) {}
 
     System.Text.Json.JsonSerializerOptions jsonOptions = new System.Text.Json.JsonSerializerOptions{
-        IncludeFields = true,
+        IncludeFields = true
     };
 
     public async Task SaveAs<T>(string name, T obj) {

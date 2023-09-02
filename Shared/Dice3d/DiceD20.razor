@@ -24,13 +24,13 @@
 </div>
 
 @code {
-    [Parameter] public D20 dice {get;set;}
-    private string CssClass => "d20-show-" + dice.NumericValue;
+    [Parameter] public D20? dice {get;set;}
+    private string CssClass => "d20-show-" + NumericCount;
 
-    public override int NumericCount => dice.NumericValue;
+    public override int NumericCount => (dice?.NumericValue ?? 1);
 
     public override void Roll() {
-        dice.Roll();
+        dice?.Roll();
         StateHasChanged();
         OnDiceRoll?.Invoke();
     }

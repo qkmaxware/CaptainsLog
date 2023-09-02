@@ -18,11 +18,11 @@
 </div>
 
 @code {
-    [Parameter] public ChallengeDice dice {get; set;}
-    private string CssClass => "d6-show-" + dice.D6Value;
+    [Parameter] public ChallengeDice? dice {get; set;}
+    private string CssClass => "d6-show-" + (dice?.D6Value ?? 1);
 
-    public override int NumericCount => dice.NumericValue;
-    public override int EffectCount => dice.ChallengeValue == ChallengeDiceResult.Effect ? 1 : 0;
+    public override int NumericCount => (dice?.NumericValue ?? 0);
+    public override int EffectCount => (dice?.ChallengeValue ?? ChallengeDiceResult.None) == ChallengeDiceResult.Effect ? 1 : 0;
     
     public override void Roll() {
         dice.Roll();

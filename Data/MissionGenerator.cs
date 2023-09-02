@@ -72,22 +72,23 @@ public class MultiMissionType : MissionType {
 }
 
 public class Advantage {
-    public string Name;
+    public string? Name;
     public string? Description;
 
-    public Advantage(string name, string? desc = null) {
+    public Advantage() {}
+    public Advantage(string name, string? description = null) {
         this.Name = name;
-        this.Description = desc;
+        this.Description = description;
     }
 }
 
 public class Complication {
-    public string Name;
+    public string? Name;
     public string? Description;
-
-    public Complication(string name, string? desc = null) {
+    public Complication() {}
+    public Complication(string name, string? description = null) {
         this.Name = name;
-        this.Description = desc;
+        this.Description = description;
     }
 }
 

@@ -190,7 +190,7 @@
             }
         </Tab>
         <Tab Title="Completed">
-            @if (!ReferenceEquals(data, null) && !ReferenceEquals(data.Missions.Completed, null)) {
+            @if (!ReferenceEquals(data, null) && !ReferenceEquals(data.Missions, null) && !ReferenceEquals(data.Missions.Completed, null)) { 
                 <ul class="w3-ul">
                 @foreach (var item in ((IEnumerable<MissionBriefing>)data.Missions.Completed).Reverse()) {
                     <li>
@@ -210,13 +210,16 @@
     [Parameter] public IAppDataProvider? DataProvider {get; set;}
     private SlideDrawer? drawer;
 
-    private AppData data;
+    private AppData? data;
     private MissionBriefing? brief;
 
     public void Show() {
         brief = null;
         data = DataProvider?.GetAppData();
         if (!ReferenceEquals(data, null)) {
+            if (ReferenceEquals(data.Missions, null)) {
+                data.Missions = new CaptainsLog.Missions();
+            }
             brief = data.Missions.Current;
         }
         StateHasChanged();
@@ -228,6 +231,9 @@
         this.brief = generator.Generate();
         var data = DataProvider?.GetAppData();
         if (!ReferenceEquals(data, null)) {
+            if (ReferenceEquals(data.Missions, null)) {
+                data.Missions = new CaptainsLog.Missions();
+            }
             data.Missions.Current = brief;
         }
     }
@@ -236,6 +242,9 @@
         this.brief = null;
         var data = DataProvider?.GetAppData();
         if (!ReferenceEquals(data, null)) {
+            if (ReferenceEquals(data.Missions, null)) {
+                data.Missions = new CaptainsLog.Missions();
+            }
             data.Missions.Current = null;
         }
     }
@@ -247,6 +256,9 @@
         this.brief.Completed = DateTime.Now;
         var data = DataProvider?.GetAppData();
         if (!ReferenceEquals(data, null)) {
+            if (ReferenceEquals(data.Missions, null)) {
+                data.Missions = new CaptainsLog.Missions();
+            }
             if (ReferenceEquals(data.Missions.Completed, null)){
                 data.Missions.Completed = new List<MissionBriefing>();
             }
@@ -254,6 +266,9 @@
         }
         this.brief = null;
         if (!ReferenceEquals(data, null)) {
+            if (ReferenceEquals(data.Missions, null)) {
+                data.Missions = new CaptainsLog.Missions();
+            }
             data.Missions.Current = null;
         }
     }
