@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "CaptainsLog.dll": "sha256-IZ+nfTgPaIPDsB3EklJ2UcHgtD629NP+b7F5WJrcOtM=",
+      "CaptainsLog.dll": "sha256-0s5BIG8sEHFVclZJmfnR++YleJJsKgUrA0aluGC975Y=",
       "Microsoft.AspNetCore.Components.dll": "sha256-q3gRPTgEsfpIve8cx15E20XlKBaMSSkds0vvxiE0Urs=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-fyNPlCc68zCz31X2E8C7q5Qo\/YWraeCk6U7AnjcQYE0=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-8DoJrRX6nRTBkcyndvGcib+RscaEDKjz\/GljZbiwzWA=",
@@ -31,14 +31,14 @@
       "System.ComponentModel.TypeConverter.dll": "sha256-Y2xokaNxzTJKgLGqNryPU6W85MqkVRWinX139fok0uc=",
       "System.Console.dll": "sha256-7\/NEkq8jXmREj+8d6F75v7qYlN42YwwQA59VvoMiPZ8=",
       "System.dll": "sha256-Dk7xQ4Zqn\/2wU4QbDAhlgPpc7jA2D1YoJQJI6arod9g=",
-      "System.Linq.dll": "sha256-BDvUK7iDfIT8KoUhw7U9r83hTwJYRhvJdIXg4\/7jL9A=",
+      "System.Linq.dll": "sha256-LBamQJyqYuZ9HomyNr+kYagjI+CZGVe4igdDWJ8NFmQ=",
       "System.Memory.dll": "sha256-KLyizTVNr5OAaObAHVC88i8JkxTnl6zkSFB0xJtwgEM=",
       "System.Net.Http.dll": "sha256-JVoxp4b342ZNm9h0NfxHvc+GkhRb7c+kfCQJAPAMMZ4=",
       "System.Net.Primitives.dll": "sha256-s+5DbwuQFwjUmtfnDXL\/Hyra3ajgNyaZg8FIuWonkQ0=",
       "System.ObjectModel.dll": "sha256-BkOYD3UG56tl2Qr\/FwjcneTSNKQrgka2qGUMoh8U51c=",
-      "System.Private.CoreLib.dll": "sha256-VDvR0T6Tg48Ss5MEvjrxYvroLilSG+ef7hRnml0nFPY=",
+      "System.Private.CoreLib.dll": "sha256-sKWjYRzn4ODZbiE0S64GxNxBWvqpRvzs\/3XR2\/lROg8=",
       "System.Private.Uri.dll": "sha256-A1t2SWWLvaFykvJwZecAM2nJVqVWMIrbnolBAA7yhXU=",
-      "System.Runtime.dll": "sha256-3VwhAtLKwDymx2gfDkwQTtp16VYYIrUNx8Xx5L2hXr4=",
+      "System.Runtime.dll": "sha256-iijy7kcGbLMUoBRKy7QpLbemzeTsLoe6vLc6gn5wT1A=",
       "System.Runtime.InteropServices.JavaScript.dll": "sha256-seKkJcV23+2CsUE55lbJKcSEDRa6WLn\/WkOcfY0GrYU=",
       "System.Text.Encodings.Web.dll": "sha256-KwxETxZvEIN+F2cFoOmczAYLy\/vNVDN4Xr11FOMxkVM=",
       "System.Text.Json.dll": "sha256-r6xB9rR6jL20LQoP3pGzauHZe\/8okcqVoLkY8cWpMhY="
