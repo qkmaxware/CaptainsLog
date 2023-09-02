@@ -7,6 +7,10 @@ public abstract class Dice {
 
     public int NumericValue {get; protected set;}
 
+    public Dice() {
+        this.Roll();
+    }
+
     protected int RollNumeric (int max) {
         this.NumericValue = rng.Next(max) + 1;
         return NumericValue;

@@ -1,10 +1,15 @@
+.dice {
+    --d6-size: 60px;
+    --d6-half-size: 30px;
+}
+
 .d6 {
     display: inline-block;
-    width: 60px;
-    height: 60px;
+    width: var(--d6-size);
+    height: var(--d6-size);
     position: relative;
     transform-style: preserve-3d;
-    transform: translateZ(calc(-1 * 30px));
+    transform: translateZ(calc(-1 * var(--d6-half-size)));
     transition: transform 1s ease-out;
 }
 
@@ -17,10 +22,10 @@
 
 .d6 .face {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: var(--d6-size);
+    height: var(--d6-size);
     border: 1px solid white;
-    line-height: 50px;
+    line-height: var(--d6-size);
     font-size: 20px;
     font-weight: bold;
     color: white;
@@ -28,9 +33,9 @@
     background: rgb(34, 34, 34);
 }
 
-.d6 .face-1  { transform: rotateY(  0deg) translateZ(30px); }
-.d6 .face-2  { transform: rotateY(180deg) translateZ(30px); }
-.d6 .face-3  { transform: rotateY( 90deg) translateZ(30px); }
-.d6 .face-4  { transform: rotateY(-90deg) translateZ(30px); }
-.d6 .face-5  { transform: rotateX( 90deg) translateZ(30px); }
-.d6 .face-6  { transform: rotateX(-90deg) translateZ(30px); }
+.d6 .face-1  { transform: rotateY(  0deg) translateZ(var(--d6-half-size)); }
+.d6 .face-2  { transform: rotateY(180deg) translateZ(var(--d6-half-size)); }
+.d6 .face-3  { transform: rotateY( 90deg) translateZ(var(--d6-half-size)); }
+.d6 .face-4  { transform: rotateY(-90deg) translateZ(var(--d6-half-size)); }
+.d6 .face-5  { transform: rotateX( 90deg) translateZ(var(--d6-half-size)); }
+.d6 .face-6  { transform: rotateX(-90deg) translateZ(var(--d6-half-size)); }

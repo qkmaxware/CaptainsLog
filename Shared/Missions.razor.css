@@ -1,0 +1,81 @@
+.briefing {
+    padding: 8px 12px;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    margin-bottom: 16px;
+}
+
+.advantage {
+    background-color: #88ccff;
+    color: black;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.advantage strong {
+    padding: 0px 8px;
+    display: inline-block;
+}
+
+.advantage p {
+    background-color: #e7f5ff;
+    color: black;
+    padding: 8px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    margin-top: 0;
+}
+
+
+.complication {
+    background-color: #ff5555;
+    color: black;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.complication strong {
+    padding: 0px 8px;
+    display: inline-block;
+}
+
+.complication p {
+    background-color: #ff8866;
+    color: black;
+    padding: 8px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    margin-top: 0;
+}
+
+.act-container {
+    margin-top: 0.5em;
+    border-left: 1px solid white;
+    border-top: 1px solid white;
+    border-right: 1px solid white;
+    padding-top: 1em;
+}
+
+.act-container header {
+    text-align: center;
+    margin-top: -1.7em;
+}
+.act-container header span {
+    background-color: #2c2f33;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.act-container button {
+    width: 18%;
+    padding: 0;
+} 
+
+.act-container img {
+    width: 100%
+}

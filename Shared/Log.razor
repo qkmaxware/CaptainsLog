@@ -67,6 +67,7 @@
             newEntry.Stardate = nonNullLog.Items[nonNullLog.Items.Count - 1].Stardate.AddDays(1); // Next log date
         }
 
+        StateHasChanged();
         drawer?.Show();
     }
 

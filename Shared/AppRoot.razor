@@ -52,14 +52,19 @@
                 }
                 <div class="w3-center">
                     <span class="quicklink">
-                        <button class="w3-button circle lcars-primary"><img src="ui/log.svg" class="icon" @onclick=openLog></button>
+                        <button class="w3-button circle lcars-secondary" @onclick=openMission><img src="ui/wifi.svg" class="icon"></button>
+                        <br>
+                        Mission
+                    </span>
+                    <span class="quicklink">
+                        <button class="w3-button circle lcars-secondary" @onclick=openLog><img src="ui/log.svg" class="icon"></button>
                         <br>
                         Log
                     </span>
                     <span class="quicklink">
-                        <button class="w3-button circle lcars-primary"><img src="ui/dice.svg" class="icon" @onclick=openRoller></button>
+                        <button class="w3-button circle lcars-secondary" @onclick=openRoller><img src="ui/dice.svg" class="icon"></button>
                         <br>
-                        Dice Roller
+                        Dice
                     </span>
                 </div>
                 
@@ -116,8 +121,9 @@
                 <span class="w3-display-middle w3-xlarge">+</span>
             </button>
         </Tab>
-    </TabView>
+    </TabView>  
 
+    <Missions @ref=missions DataProvider=@this></Missions>
     <Log @ref=personalLog DataProvider=@this></Log>
     <DiceRoller @ref=roller></DiceRoller>
 
@@ -254,7 +260,7 @@
             saving = true;
             await InvokeAsync(StateHasChanged);
             await storage.SaveAs<AppData>("treksharp.captainlog", this.data);
-            //await Task.Delay(5000);
+            await Task.Delay(1000);
             saving = false;
             await InvokeAsync(StateHasChanged);
         } catch (Exception e) {
@@ -428,5 +434,10 @@
     private DiceRoller? roller;
     private void openRoller() {
         roller?.Show();
+    }
+
+    private Missions? missions;
+    private void openMission() {
+        this.missions?.Show();
     }
 }

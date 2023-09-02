@@ -9,9 +9,15 @@ public interface IAppDataProvider {
     public void Save();
 }
 
+public struct Missions {
+    public MissionBriefing? Current;
+    public List<MissionBriefing>? Completed;
+}
+
 public class AppData {
     public Fleet? Fleet;
     public PersonalLog? Log;
+    public Missions Missions;
 
     public IEnumerable<Ship> EnumerateVessels() {
         if (ReferenceEquals(Fleet, null) || ReferenceEquals(Fleet.Ships, null)) {
