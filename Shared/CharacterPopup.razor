@@ -113,12 +113,12 @@
             </div>
             <div class="w3-row w3-margin-top">
                 <div class="w3-col" style="width: 8em"><label>Vessel</label></div>
-                <div class="w3-col w3-right" style="width: 8em">
-                    <button class="w3-button w3-green" style="width: 100%" @onclick=openReassignment>Reassign</button>
-                </div>
-                <div class="w3-rest">
+                <div class="w3-rest" style="border-bottom: 1px dashed white;">
                     @assigned?.Name @assigned?.Registry
                 </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="w3-button w3-green w3-round-xlarge" @onclick=openReassignment>Reassign</button>
             </div>
         </TitleBlock>
         <TitleBlock Title="Statistics">
@@ -234,6 +234,14 @@
                 <option value="@ship.Registry">@ship.Name @ship.Registry</option>
             }
         </select>
+        <select class="w3-select" @bind="reassignShipDepartment">
+            <option hidden disabled selected value>-- select an department --</option>
+            @if (!ReferenceEquals(reassignShip, null) && !ReferenceEquals(reassignShip.Departments, null)) {
+                foreach (var dept in reassignShip.Departments) {
+                    <option>@dept.Name</option>
+                }
+            }
+        </select>
     </Body>
     <Footer>
         <div class="w3-row">
@@ -327,24 +335,48 @@
     }
 
     private Modal? reassignmentModal;
-    private string? reassignShipRegistry;
+    private Ship? reassignShip;
+    private string? reassignShipRegistry {
+        get => reassignShip?.Registry;
+        set {
+            reassignShip = this.ships?.Where(x => x.Registry == value)?.FirstOrDefault();
+        }
+    }
+    private string? reassignShipDepartment;
     private void openReassignment() {
         reassignShipRegistry = null;
         reassignmentModal?.Show();
     }
     private void reassign() {
-        if (!ReferenceEquals(actor, null)) {
+        // Gota have a person lol
+        if (ReferenceEquals(actor, null)) {
             return;
         }
+        var vessel = reassignShip;
 
-        var vessel = DataProvider?.GetAppData()?.FindShipWithRegistryNumber(this.reassignShipRegistry);
-        if (!ReferenceEquals(assigned, null)) {
-            //assigned.Unassign(actor);
+        // Unassign
+        if (!ReferenceEquals(assigned, null) && !ReferenceEquals(assigned.Departments, null)) {
+            foreach (var dept in assigned.Departments) {
+                if (!ReferenceEquals(dept.Characters, null)) {
+                    dept.Characters.Remove(actor);
+                }
+            }
         }
-        if (!ReferenceEquals(vessel, null)) {
-            //vessel.Assign(actor);
-            //this.assigned = vessel;
+
+        // Assign
+        if (!ReferenceEquals(vessel, null) && !ReferenceEquals(vessel.Departments, null)) {
+            var dept = vessel.Departments.Where(x => x.Name == reassignShipDepartment).FirstOrDefault();
+
+            if (!ReferenceEquals(dept, null)) {
+                if (ReferenceEquals(dept.Characters, null))
+                    dept.Characters = new List<Character>();
+                dept.Characters.Remove(actor);
+                dept.Characters.Add(actor);
+                this.assigned = vessel;
+            }
         }
+
+        // Hide
         reassignmentModal?.Hide();
     }
 }
