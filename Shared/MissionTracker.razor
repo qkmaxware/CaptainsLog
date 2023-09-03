@@ -1,0 +1,79 @@
+@if (!ReferenceEquals(Brief, null)) {
+<div class="w3-row">
+    <div class="w3-third act-container">
+        <header><span>Act 1</span></header>
+        <div>
+            <button class="w3-button w3-flat w3-display-container" @onclick=@(() => Brief.Progress.Scene1 = (MissionSceneState)(((int)Brief.Progress.Scene1 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">1</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene1></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene2 = (MissionSceneState)(((int)Brief.Progress.Scene2 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">3</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene2></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene3 = (MissionSceneState)(((int)Brief.Progress.Scene3 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">3</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene3></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene4 = (MissionSceneState)(((int)Brief.Progress.Scene4 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">4</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene4></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene5 = (MissionSceneState)(((int)Brief.Progress.Scene5 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">5</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene5></MissionTrackerDelta>
+            </button>
+        </div>
+    </div>
+    <div class="w3-third act-container">
+        <header><span>Act 2</span></header>
+        <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene6 = (MissionSceneState)(((int)Brief.Progress.Scene6 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">6</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene6></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene7 = (MissionSceneState)(((int)Brief.Progress.Scene7 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">7</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene7></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene8 = (MissionSceneState)(((int)Brief.Progress.Scene8 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">8</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene8></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene9 = (MissionSceneState)(((int)Brief.Progress.Scene9 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">9</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene9></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene10 = (MissionSceneState)(((int)Brief.Progress.Scene10 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">10</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene10></MissionTrackerDelta>
+            </button>
+    </div>
+    <div class="w3-third act-container">
+        <header><span>Act 3</span></header>
+        <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene11 = (MissionSceneState)(((int)Brief.Progress.Scene11 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">11</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene11></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene12 = (MissionSceneState)(((int)Brief.Progress.Scene12 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">12</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene12></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene13 = (MissionSceneState)(((int)Brief.Progress.Scene13 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">13</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene13></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene14 = (MissionSceneState)(((int)Brief.Progress.Scene14 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">14</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene14></MissionTrackerDelta>
+            </button>
+            <button class="w3-button w3-flat w3-display-container"@onclick=@(() => Brief.Progress.Scene15 = (MissionSceneState)(((int)Brief.Progress.Scene15 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
+                <span class="w3-display-middle">15</span>
+                <MissionTrackerDelta State=@Brief.Progress.Scene15></MissionTrackerDelta>
+            </button>
+    </div>
+</div>
+}
+
+@code {
+    [Parameter]public MissionBriefing? Brief {get; set;}
+}

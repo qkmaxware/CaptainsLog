@@ -1,0 +1,18 @@
+@switch(State) {
+    case MissionSceneState.NotDone:
+        <img src="ui/delta_empty.svg">
+        break;
+    case MissionSceneState.CompleteNotWell:
+        <img src="ui/delta_full_silver.svg">
+        break;
+    case MissionSceneState.CompleteWell:
+        <img src="ui/delta_full_gold.svg">
+        break;
+    default:
+        <img src="ui/delta_empty.svg">
+        break;
+}
+
+@code {
+    [Parameter]public MissionSceneState State {get; set;}
+}

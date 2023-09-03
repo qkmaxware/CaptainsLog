@@ -1,5 +1,5 @@
 <SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
-    <TabView>
+    <TabView @ref=tabs>
         <Tab Title="Current Mission">
             @if (ReferenceEquals(brief, null)) {
                 <div class="w3-center">
@@ -40,148 +40,13 @@
                     </div>
 
                     <TitleBlock Title="Progress Report">
-                        <div class="w3-row">
-                            <div class="w3-third act-container">
-                                <header><span>Act 1</span></header>
-                                <div>
-                                    <button class="w3-button w3-flat w3-display-container" @onclick=@(() => brief.Progress.Scene1 = (MissionSceneState)(((int)brief.Progress.Scene1 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">1</span>
-                                        @if (brief.Progress.Scene1 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene2 = (MissionSceneState)(((int)brief.Progress.Scene2 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">3</span>
-                                        @if (brief.Progress.Scene2 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene3 = (MissionSceneState)(((int)brief.Progress.Scene3 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">3</span>
-                                        @if (brief.Progress.Scene3 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene4 = (MissionSceneState)(((int)brief.Progress.Scene4 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">4</span>
-                                        @if (brief.Progress.Scene4 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene5 = (MissionSceneState)(((int)brief.Progress.Scene5 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">5</span>
-                                        @if (brief.Progress.Scene5 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="w3-third act-container">
-                                <header><span>Act 2</span></header>
-                                <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene6 = (MissionSceneState)(((int)brief.Progress.Scene6 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">6</span>
-                                        @if (brief.Progress.Scene6 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene7 = (MissionSceneState)(((int)brief.Progress.Scene7 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">7</span>
-                                        @if (brief.Progress.Scene7 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene8 = (MissionSceneState)(((int)brief.Progress.Scene8 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">8</span>
-                                        @if (brief.Progress.Scene8 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene9 = (MissionSceneState)(((int)brief.Progress.Scene9 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">9</span>
-                                        @if (brief.Progress.Scene9 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene10 = (MissionSceneState)(((int)brief.Progress.Scene10 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">10</span>
-                                        @if (brief.Progress.Scene10 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                            </div>
-                            <div class="w3-third act-container">
-                                <header><span>Act 3</span></header>
-                                <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene11 = (MissionSceneState)(((int)brief.Progress.Scene11 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">11</span>
-                                        @if (brief.Progress.Scene11 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene12 = (MissionSceneState)(((int)brief.Progress.Scene12 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">12</span>
-                                        @if (brief.Progress.Scene12 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene13 = (MissionSceneState)(((int)brief.Progress.Scene13 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">13</span>
-                                        @if (brief.Progress.Scene13 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene14 = (MissionSceneState)(((int)brief.Progress.Scene14 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">14</span>
-                                        @if (brief.Progress.Scene14 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                                    <button class="w3-button w3-flat w3-display-container"@onclick=@(() => brief.Progress.Scene15 = (MissionSceneState)(((int)brief.Progress.Scene15 + 1) % ((int)Enum.GetValues<MissionSceneState>().Max() + 1)))>
-                                        <span class="w3-display-middle">15</span>
-                                        @if (brief.Progress.Scene15 == MissionSceneState.NotDone) {
-                                        <img src="ui/delta_empty.svg">
-                                        } else {
-                                        <img src="ui/delta_full.svg">
-                                        }
-                                    </button>
-                            </div>
-                        </div>
+                        <MissionTracker Brief=@brief></MissionTracker>
                         <div class="w3-row w3-margin-top">
                             <div class="w3-col s6">
                                 <button class="w3-button w3-round-xlarge lcars-warning" @onclick=abandon>Abandon Mission</button>
                             </div>
                             <div class="w3-col s6" style="text-align: right;">
-                                @if (brief.Progress.Scene15 != MissionSceneState.NotDone) {
-                                    <button class="w3-button w3-round-xlarge lcars-secondary" @onclick=complete>Complete Mission</button>
-                                }
-                                &nbsp;
+                                <button class="w3-button w3-round-xlarge lcars-secondary" @onclick=complete>Complete Mission</button>
                             </div>
                         </div>
                     </TitleBlock>
@@ -193,10 +58,32 @@
             @if (!ReferenceEquals(data, null) && !ReferenceEquals(data.Missions, null) && !ReferenceEquals(data.Missions.Completed, null)) { 
                 <ul class="w3-ul">
                 @foreach (var item in ((IEnumerable<MissionBriefing>)data.Missions.Completed).Reverse()) {
-                    <li>
-                        <strong>@(item.Type):</strong> @item.IncitingIncident
-                        <div style="text-align: right;">
-                            completed: @item.Completed
+                    <li class="w3-row">
+                        <div class="w3-col w3-xxlarge" style="width: 2em;">
+                            @item.Progress.Grade()
+                        </div>
+                        <div class="w3-rest">
+                            <strong>@(item.Type):</strong> @item.IncitingIncident<br>
+                            <div class="scene-status">
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene1></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene2></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene3></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene4></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene5></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene6></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene7></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene8></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene9></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene10></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene11></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene12></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene13></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene14></MissionTrackerDelta></div>
+                                <div class="scene-div"><MissionTrackerDelta State=@item.Progress.Scene15></MissionTrackerDelta></div>
+                            </div>
+                            <div style="text-align: right;">
+                                completed: @item.Completed
+                            </div>
                         </div>
                     </li>
                 }
@@ -209,6 +96,7 @@
 @code {
     [Parameter] public IAppDataProvider? DataProvider {get; set;}
     private SlideDrawer? drawer;
+    private TabView? tabs;
 
     private AppData? data;
     private MissionBriefing? brief;
@@ -263,6 +151,7 @@
                 data.Missions.Completed = new List<MissionBriefing>();
             }
             data.Missions.Completed.Add(this.brief);
+            tabs?.Select(1); // Goto completed missions
         }
         this.brief = null;
         if (!ReferenceEquals(data, null)) {

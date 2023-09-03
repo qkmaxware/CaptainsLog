@@ -93,8 +93,13 @@ public class Complication {
 }
 
 public enum MissionSceneState {
-    NotDone,
-    Complete
+    NotDone = 0,
+    CompleteNotWell = 1,
+    CompleteWell = 2
+}
+
+public enum MissionScore {
+    C, B, A, S
 }
 
 public struct MissionProgress {
@@ -113,6 +118,37 @@ public struct MissionProgress {
     public MissionSceneState Scene13;
     public MissionSceneState Scene14;
     public MissionSceneState Scene15;
+
+    public MissionScore Grade() {
+        int completed = 0;
+        int score = 0;
+        
+        if (Scene1 != MissionSceneState.NotDone) { completed++; score+=(int)Scene1; }
+        if (Scene2 != MissionSceneState.NotDone) { completed++; score+=(int)Scene2; }
+        if (Scene3 != MissionSceneState.NotDone) { completed++; score+=(int)Scene3; }
+        if (Scene4 != MissionSceneState.NotDone) { completed++; score+=(int)Scene4; }
+        if (Scene5 != MissionSceneState.NotDone) { completed++; score+=(int)Scene5; }
+        if (Scene6 != MissionSceneState.NotDone) { completed++; score+=(int)Scene6; }
+        if (Scene7 != MissionSceneState.NotDone) { completed++; score+=(int)Scene7; }
+        if (Scene8 != MissionSceneState.NotDone) { completed++; score+=(int)Scene8; }
+        if (Scene9 != MissionSceneState.NotDone) { completed++; score+=(int)Scene9; }
+        if (Scene10 != MissionSceneState.NotDone) { completed++; score+=(int)Scene10; }
+        if (Scene11 != MissionSceneState.NotDone) { completed++; score+=(int)Scene11; }
+        if (Scene12 != MissionSceneState.NotDone) { completed++; score+=(int)Scene12; }
+        if (Scene13 != MissionSceneState.NotDone) { completed++; score+=(int)Scene13; }
+        if (Scene14 != MissionSceneState.NotDone) { completed++; score+=(int)Scene14; }
+        if (Scene15 != MissionSceneState.NotDone) { completed++; score+=(int)Scene15; }
+
+        var percent = ((float)score / ((float)completed * (int)MissionSceneState.CompleteWell));
+
+        return percent switch {
+            _ when percent < 0.6f                       => MissionScore.C,
+            _ when percent >= 0.6f && percent <= 0.8f   => MissionScore.B,
+            _ when percent > 0.8f && percent < 1f       => MissionScore.A,
+            _ when percent >= 1f                        => MissionScore.S,
+            _                                           => MissionScore.C
+        };
+    }
 }
 
 public class MissionBriefing {
@@ -655,7 +691,7 @@ public class MissionBriefingGenerator {
         // Get type & categories
         var bf = type.CreateBriefing();
         // Roll an incident (267) & theme (267) and combine them
-        bf.IncitingIncident = string.Join(' ', this.themes.Random().GetRandom()) + ", " + string.Join(' ', this.incidents.Random().GetRandom());
+        bf.IncitingIncident = string.Join(", ", this.themes.Random().GetRandom()) + "/" + string.Join(", ", this.incidents.Random().GetRandom());
         // Roll starting advantage or complication
         if ((new D20().NumericValue) % 2 == 0) {
             // Even roll advantage

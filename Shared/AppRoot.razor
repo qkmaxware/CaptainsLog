@@ -130,26 +130,26 @@
     <ShipPopup @ref=shipDrawer DataProvider=@this>
         <Additions>
             <TitleBlock Title="Departments">
-                <ul class="w3-ul">
                 @if (!ReferenceEquals(context, null) && !ReferenceEquals(context.Departments, null)) {
-                    foreach (var dept in context.Departments) {
-                        <table>
-                            <tr>
-                                <td>
-                                    <input type="text" class="w3-input" @bind=@dept.Name>
-                                </td>
-                                <td style="text-align: right;">
-                                    <button title="See Crew" class="w3-button w3-round-xlarge lcars-secondary" @onclick=@(() => SeeCrewInDepartment(context, dept))><img class="icon" src="ui/people.svg"></button>
-                                    <button title="Delete Department" class="w3-button w3-round-xlarge lcars-warning" @onclick=@(async () => { if (!ReferenceEquals(dept.Characters, null) && dept.Characters.Count > 0) { await alert.Alert("Cannot delete a department with characters assigned. Please reassign all characters before trying again."); } else if(await alert.Confirm("Are you sure you want to delete this department?")) { context.Departments.Remove(dept); } })><img class="icon" src="ui/delete.svg"></button>
-                                </td>
-                            </tr>
-                        </table>
+                    <table>
+                    @foreach (var dept in context.Departments) {
+                        <tr>
+                            <td>
+                                <input type="text" class="w3-input" @bind=@dept.Name>
+                            </td>
+                            <td style="text-align: right;">
+                                <button title="See Crew" class="w3-button w3-round-xlarge lcars-secondary" @onclick=@(() => SeeCrewInDepartment(context, dept))><img class="icon" src="ui/people.svg"></button>
+                                <button title="Delete Department" class="w3-button w3-round-xlarge lcars-warning" @onclick=@(async () => { if (!ReferenceEquals(dept.Characters, null) && dept.Characters.Count > 0) { await alert.Alert("Cannot delete a department with characters assigned. Please reassign all characters before trying again."); } else if(await alert.Confirm("Are you sure you want to delete this department?")) { context.Departments.Remove(dept); } })><img class="icon" src="ui/delete.svg"></button>
+                            </td>
+                        </tr>
+                    
                     }
+                    </table>
+                    <div class="w3-margin-top w3-margin-bottom">
+                        <button title="See Crew" class="w3-button w3-round-xlarge lcars-primary" @onclick=@(() => { if(ReferenceEquals(context.Departments, null)) { context.Departments = new List<Department>(); } context.Departments.Add(new Department { Name = "New Department" }); })>+ Department</button>
+                    </div>
                 }
-                </ul>
-                <div class="w3-margin-top w3-margin-bottom">
-                    <button title="See Crew" class="w3-button w3-round-xlarge lcars-primary" @onclick=@(() => { if(ReferenceEquals(context.Departments, null)) { context.Departments = new List<Department>(); } context.Departments.Add(new Department { Name = "New Department" }); })>+ Department</button>
-                </div>
+                
             </TitleBlock>
         </Additions>
     </ShipPopup>

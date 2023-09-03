@@ -53,29 +53,13 @@
     margin-top: 0;
 }
 
-.act-container {
-    margin-top: 0.5em;
-    border-left: 1px solid white;
-    border-top: 1px solid white;
-    border-right: 1px solid white;
-    padding-top: 1em;
+.scene-status {
+    padding-top: 6px;
+    user-select: none;
+    pointer-events: none;
 }
 
-.act-container header {
-    text-align: center;
-    margin-top: -1.7em;
-}
-.act-container header span {
-    background-color: #2c2f33;
-    padding-left: 4px;
-    padding-right: 4px;
-}
-
-.act-container button {
-    width: 18%;
-    padding: 0;
-} 
-
-.act-container img {
-    width: 100%
+.scene-div {
+    width: 1.5em;
+    display: inline-block;
 }
