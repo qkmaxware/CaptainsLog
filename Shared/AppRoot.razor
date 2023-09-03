@@ -129,7 +129,7 @@
 
     <ShipPopup @ref=shipDrawer DataProvider=@this>
         <Additions>
-            <TitleBlock Title="Crew">
+            <TitleBlock Title="Crew Manifest">
                 @if (!ReferenceEquals(context, null) && !ReferenceEquals(context.Departments, null)) {
                     <table>
                     @foreach (var dept in context.Departments) {
