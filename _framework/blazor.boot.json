@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "CaptainsLog.dll": "sha256-IEOlNo0Z2sME0HxmGnw6924EtBwYK3vOcnFXjp9zsFw=",
+      "CaptainsLog.dll": "sha256-bYpce6dV9Pdwa0Aj6mh+LpF660UBjfIqpc1qbNGl8og=",
       "Microsoft.AspNetCore.Components.dll": "sha256-q3gRPTgEsfpIve8cx15E20XlKBaMSSkds0vvxiE0Urs=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-fyNPlCc68zCz31X2E8C7q5Qo\/YWraeCk6U7AnjcQYE0=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-8DoJrRX6nRTBkcyndvGcib+RscaEDKjz\/GljZbiwzWA=",
