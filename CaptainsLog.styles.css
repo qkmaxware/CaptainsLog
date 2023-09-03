@@ -1090,7 +1090,18 @@ main[b-axs8p9ae6d] {
     margin-top: 0;
 }
 
-.act-container[b-0xnz5c89d2] {
+.scene-status[b-0xnz5c89d2] {
+    padding-top: 6px;
+    user-select: none;
+    pointer-events: none;
+}
+
+.scene-div[b-0xnz5c89d2] {
+    width: 1.5em;
+    display: inline-block;
+}
+/* /Shared/MissionTracker.razor.rz.scp.css */
+.act-container[b-phw9m3sio6] {
     margin-top: 0.5em;
     border-left: 1px solid white;
     border-top: 1px solid white;
@@ -1098,22 +1109,30 @@ main[b-axs8p9ae6d] {
     padding-top: 1em;
 }
 
-.act-container header[b-0xnz5c89d2] {
+.act-container header[b-phw9m3sio6] {
     text-align: center;
     margin-top: -1.7em;
 }
-.act-container header span[b-0xnz5c89d2] {
+.act-container header span[b-phw9m3sio6] {
     background-color: #2c2f33;
     padding-left: 4px;
     padding-right: 4px;
 }
 
-.act-container button[b-0xnz5c89d2] {
+.act-container button[b-phw9m3sio6] {
     width: 18%;
     padding: 0;
-} 
+    background: transparent !important;
+}
 
-.act-container img[b-0xnz5c89d2] {
+.act-container button:hover[b-phw9m3sio6] {
+    background: transparent !important;
+}
+.act-container button:focus[b-phw9m3sio6] {
+    background: transparent !important;
+}
+/* /Shared/MissionTrackerDelta.razor.rz.scp.css */
+img[b-hgr6ixy6tq] {
     width: 100%
 }
 /* /Shared/ShipDrawer.razor.rz.scp.css */

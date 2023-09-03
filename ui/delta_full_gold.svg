@@ -7,7 +7,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="delta_full.svg"
+   sodipodi:docname="delta_full_gold.svg"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    id="svg5"
    version="1.1"
@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,6 +56,6 @@
        sodipodi:nodetypes="ccccc"
        id="path893"
        d="M 26.059744,125.75812 C 27.401242,100.94602 37.782213,40.949356 66.935686,2.0658665 90.570477,36.133172 97.417939,84.266932 101.96364,114.7464 95.960913,102.76729 87.233384,85.005601 77.977104,80.236797 56.812045,85.041062 38.004257,110.94143 26.059744,125.75812 Z"
-       style="fill:#ffffff;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
+       style="fill:#ffd700;fill-opacity:1;stroke:#ffe55c;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>
