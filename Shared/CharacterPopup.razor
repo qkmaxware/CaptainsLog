@@ -1,4 +1,5 @@
 @inject IJSRuntime js
+@inject Js.Alerts alert
 
 <SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
     @if (!ReferenceEquals(actor, null)) {
@@ -198,6 +199,9 @@
         @if (!ReferenceEquals(Additions, null)) {
             @Additions(actor)
         }
+        <div style="margin-top: 16px; margin-bottom: 64px;">
+            <button class="w3-button w3-round-xlarge lcars-warning" style="width: 100%;" @onclick=delete>Delete</button>
+        </div>
     </div>
     }
 </SlideDrawer>
@@ -382,5 +386,29 @@
 
         // Hide
         reassignmentModal?.Hide();
+    }
+
+    private async Task delete() {
+        if (ReferenceEquals(this.actor, null))
+            return;
+        
+        if (ReferenceEquals(this.assigned, null)) {
+            return;
+        }
+
+        var confirm = await alert.Confirm("Are you sure you want to delete this character? This action cannot be undone.");
+        if (confirm) {
+            if (ReferenceEquals(assigned?.Departments, null)) {
+                return;
+            }
+
+            foreach (var dept in assigned.Departments) {
+                if (ReferenceEquals(dept.Characters, null))
+                    continue;
+                dept.Characters.Remove(this.actor);
+            }
+
+            this.drawer?.Hide();
+        }
     }
 }

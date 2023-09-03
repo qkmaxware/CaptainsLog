@@ -1,4 +1,5 @@
 @inject IJSRuntime js
+@inject Js.Alerts alert
 
 <SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
     @if (!ReferenceEquals(ship, null)) {
@@ -147,6 +148,9 @@
         @if (!ReferenceEquals(Additions, null)) {
             @Additions(ship)
         }
+        <div style="margin-top: 16px; margin-bottom: 64px;">
+            <button class="w3-button w3-round-xlarge lcars-warning" style="width: 100%;" @onclick=delete>Delete</button>
+        </div>
     </div>
     }
 </SlideDrawer>
@@ -309,6 +313,22 @@
             StateHasChanged();
         } catch (Exception ex) {
             await js.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    private async Task delete() {
+        if (ReferenceEquals(this.ship, null))
+            return;
+
+        var confirm = await alert.Confirm("Are you sure you want to delete this vessel and all it's crew? This action cannot be undone.");
+        if (confirm) {
+            var data = DataProvider?.GetAppData();
+            if (ReferenceEquals(data?.Fleet?.Ships, null)) {
+                return;
+            }
+
+            data.Fleet.Ships.Remove(this.ship);
+            this.drawer?.Hide();
         }
     }
 }
