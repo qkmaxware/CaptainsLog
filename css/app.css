@@ -34,12 +34,18 @@ html, body {
     content: "An error has occurred."
 }
 
+.loading-screen {
+    width: 100vw;
+    height: 100vh;
+}
+
 .loading-progress {
     position: relative;
     display: block;
     width: 8rem;
     height: 8rem;
-    margin: 20vh auto 1rem auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .loading-progress circle {
@@ -51,7 +57,7 @@ html, body {
 }
 
 .loading-progress circle:last-child {
-    stroke: #1b6ec2;
+    stroke: #7788ffff;
     stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
     transition: stroke-dasharray 0.05s ease-in-out;
 }
@@ -60,11 +66,63 @@ html, body {
     position: absolute;
     text-align: center;
     font-weight: bold;
-    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+    line-height: 8rem;
+    width: 100%;
+    margin-top: -8rem;
 }
 
 .loading-progress-text:after {
     content: var(--blazor-load-percentage-text, "Loading");
+}
+
+.datastream {
+    margin-top: 32px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.datastream tr {
+    color: #f70;
+    animation-name: incoming-data;
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+}
+.datastream tr.row1 { animation-delay: 0.1s; }
+.datastream tr.row2 { animation-delay: 0.2s; }
+.datastream tr.row3 { animation-delay: 0.3s; }
+.datastream tr.row4 { animation-delay: 0.4s; }
+.datastream tr.row5 { animation-delay: 0.5s; }
+.datastream tr.row6 { animation-delay: 0.6s; }
+.datastream tr.row7 { animation-delay: 0.7s; }
+.datastream tr.row8 { animation-delay: 0.8s; }
+
+
+.datastream td {
+    text-align: center;
+}
+
+@keyframes incoming-data {
+    0% {
+        color: #f70;
+    }
+    25% {
+        color: #f70;
+    }
+    50% {
+        color: #f70;
+    }
+    75% {
+        color: #f70;
+    }
+    80% {
+        color: #00000000;
+    }
+    90% {
+        color: #00000000;
+    }
+    100% {
+        color: #f5f6fa;
+    }
 }
 
 
