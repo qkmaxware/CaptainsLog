@@ -22,12 +22,52 @@
 
 <body>
     <div id="app">
-        <div class="lcars-font w3-jumbo w3-center" style="width: 100%; position: absolute; top: 0; left: 0;">Captain's Log</div>
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div class="w3-display-container loading-screen">
+            <div class="w3-display-topmiddle" style="width: 100%; padding: 8px;">
+                <div class="lcars-secondary round-bottom-right round-bottom-left round-top-left round-top-right">&nbsp;</div>
+                <div class="w3-center" style="z-index: 1">
+                    <table class="datastream">
+                        <tr class='row1'>
+                            <td>101</td><td>7569</td><td>4920</td><td>44</td><td>762</td><td>74</td><td>285</td><td>78</td><td>645</td><td>7249</td><td>35</td>
+                        </tr>
+                        <tr class='row2'>
+                            <td>102</td><td>270</td><td>614</td><td>46</td><td>484</td><td>64</td><td>766</td><td>705</td><td>729</td><td>3907</td><td>60</td>
+                        </tr>
+                        <tr class='row3'>
+                            <td>103</td><td>5687</td><td>880</td><td>43</td><td>984</td><td>77</td><td>267</td><td>304</td><td>390</td><td>2864</td><td>71</td>
+                        </tr>
+                        <tr class='row4'>
+                            <td>104</td><td>6599</td><td>7075</td><td>26</td><td>612</td><td>88</td><td>429</td><td>145</td><td>148</td><td>266</td><td>72</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="w3-display-middle" style="z-index: 5; width: 100%; background-color: rgb(32, 32, 32);">
+                <img src="loading/title.svg" style="display: block; width: 360px; max-width: 80%; margin-left: auto; margin-right: auto;">
+                <svg class="loading-progress">
+                    <circle r="40%" cx="50%" cy="50%" />
+                    <circle r="40%" cx="50%" cy="50%" />
+                </svg>
+                <div class="loading-progress-text"></div>
+            </div>
+            <div class="w3-display-bottommiddle" style="width: 100%; padding: 8px;">
+                <table class="datastream">
+                    <tr class='row5'>
+                        <td>105</td><td>3343</td><td>6961</td><td>26</td><td>234</td><td>1</td><td>329</td><td>195</td><td>649</td><td>2233</td><td>73</td>
+                    </tr>
+                    <tr class='row6'>
+                        <td>106</td><td>4363</td><td>1584</td><td>53</td><td>108</td><td>83</td><td>962</td><td>8</td><td>797</td><td>9530</td><td>89</td>
+                    </tr>
+                    <tr class='row7'>
+                        <td>107</td><td>8141</td><td>7706</td><td>52</td><td>387</td><td>17</td><td>117</td><td>984</td><td>109</td><td>563</td><td>53</td>
+                    </tr>
+                    <tr class='row8'>
+                        <td>108</td><td>7468</td><td>3658</td><td>98</td><td>390</td><td>66</td><td>931</td><td>860</td><td>281</td><td>7335</td><td>75</td>
+                    </tr>
+                </table>
+                <div class="lcars-secondary round-bottom-right round-bottom-left round-top-left round-top-right">&nbsp;</div>
+            </div>
+        </div>
     </div>
 
     <div id="blazor-error-ui">
