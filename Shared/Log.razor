@@ -1,21 +1,21 @@
 <SlideDrawer @ref=drawer OnClose=@(() => DataProvider?.Save())>
     <TabView>
         <Tab Title="New Entry">
+            @if (!ReferenceEquals(newEntry, null)) {
+            if (ReferenceEquals(newEntry.Primary, null)) {
+                newEntry.Primary = new LogEntryContents();
+            }
             <label>Stardate @newEntry.Stardate.Stardate()</label>
             <input type="date" class="w3-input w3-margin-bottom" @bind=@newEntry.Stardate>
             <label>Title</label>
             <input type="text" class="w3-input w3-margin-bottom" placeholder="Title" @bind=@newEntry.Title/>
             <label>Contents</label>
-            @{
-                if (ReferenceEquals(newEntry.Primary, null)) {
-                    newEntry.Primary = new LogEntryContents();
-                }
-            }
             <textarea @bind=@newEntry.Primary.WrittenEntry></textarea>
             <p>Tip: use your phone's speech to text functionality to narrate your personal log just like in the show!</p>
             <div class="w3-padding">
                 <button class="w3-button lcars-primary" style="width: 100%;" @onclick=addEntry>End Log</button>
             </div>
+            }
         </Tab>
         <Tab Title="Entries">
             @if (!ReferenceEquals(log?.Items, null)) {
@@ -52,6 +52,7 @@
             }
         </Tab>
     </TabView>
+    <div style="height: 64px;"></div>
 </SlideDrawer>
 
 @code {
@@ -60,7 +61,7 @@
     private SlideDrawer? drawer;
     private PersonalLog? log;
 
-    private LogEntry newEntry = new LogEntry();
+    private LogEntry? newEntry = null;
 
     public void Show() {
         var data = DataProvider?.GetAppData();
@@ -71,15 +72,17 @@
         }
         PersonalLog nonNullLog = log ?? new PersonalLog();
         this.log = nonNullLog;
-
         if (ReferenceEquals(nonNullLog.Items, null)) {
             nonNullLog.Items = new List<LogEntry>();
         }
 
-        newEntry = new LogEntry();
-        newEntry.Stardate = new DateTime(2371, 1, 1); // Default date for STA
-        if (nonNullLog.Items.Count > 0) {
-            newEntry.Stardate = nonNullLog.Items[nonNullLog.Items.Count - 1].Stardate.AddDays(1); // Next log date
+        // Only do this if the entry is null
+        if (ReferenceEquals(newEntry, null)) {
+            newEntry = new LogEntry();
+            newEntry.Stardate = new DateTime(2371, 1, 1); // Default date for STA
+            if (nonNullLog.Items.Count > 0) {
+                newEntry.Stardate = nonNullLog.Items[nonNullLog.Items.Count - 1].Stardate.AddDays(1); // Next log date
+            }
         }
 
         StateHasChanged();
@@ -87,10 +90,12 @@
     }
 
     private void addEntry() {
-        newEntry.CreatedOn = DateTime.Now;
-        log?.Items?.Add(newEntry);
-        var nextDate = newEntry.Stardate.AddDays(1);
-        this.newEntry = new LogEntry();
-        this.newEntry.Stardate = nextDate;
+        @if (!ReferenceEquals(newEntry, null)) {
+            newEntry.CreatedOn = DateTime.Now;
+            log?.Items?.Add(newEntry);
+            var nextDate = newEntry.Stardate.AddDays(1);
+            this.newEntry = new LogEntry();
+            this.newEntry.Stardate = nextDate;
+        }
     }
 }
