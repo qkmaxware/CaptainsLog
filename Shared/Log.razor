@@ -6,6 +6,11 @@
             <label>Title</label>
             <input type="text" class="w3-input w3-margin-bottom" placeholder="Title" @bind=@newEntry.Title/>
             <label>Contents</label>
+            @{
+                if (ReferenceEquals(newEntry.Primary, null)) {
+                    newEntry.Primary = new LogEntryContents();
+                }
+            }
             <textarea @bind=@newEntry.Primary.WrittenEntry></textarea>
             <p>Tip: use your phone's speech to text functionality to narrate your personal log just like in the show!</p>
             <div class="w3-padding">
@@ -19,18 +24,28 @@
                     var title = $"Stardate {entry.Stardate.Stardate()}";
                     if (!ReferenceEquals(self, null)) {
                     <TitleBlock Title=@title>
-                        <p>
-                            @entry.Primary.WrittenEntry
-                        </p>
-                        <details>
-                            <summary>Supplemental</summary>
-                            <textarea @bind=@self.Supplemental.WrittenEntry></textarea>
-                        </details>
-                        <div style="text-align: right">
-                            <button class="w3-button w3-round-large lcars-warning" @onclick=@(() => log?.Items?.Remove(self))>
-                                <img src="ui/delete.svg" class="icon">
-                            </button>
-                        </div>
+                        <p>@entry.Primary?.WrittenEntry</p>
+                        @if (!ReferenceEquals(entry.Supplemental, null)) {
+                            foreach (var supplemental in entry.Supplemental) {
+                                <p>
+                                    <strong>Supplemental</strong>
+                                    <textarea @bind=@supplemental.WrittenEntry></textarea>
+                                    
+                                </p>
+                            }
+                        }
+                        <div class="w3-row">
+                            <div class="w3-col s6">
+                                <button class="w3-button w3-flat" @onclick=@(() => { if(ReferenceEquals(self.Supplemental, null)) { self.Supplemental = new(); } self.Supplemental.Add(new LogEntryContents()); })>
+                                    + Supplemental
+                                </button>
+                            </div>
+                            <div class="w3-col s6" style="text-align: right;">
+                                <button class="w3-button w3-round-large lcars-warning" @onclick=@(() => log?.Items?.Remove(self))>
+                                    <img src="ui/delete.svg" class="icon">
+                                </button>
+                            </div>
+                        </div>  
                     </TitleBlock>
                     }
                 }

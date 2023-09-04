@@ -1,6 +1,6 @@
 namespace CaptainsLog;
 
-public struct LogEntryContents {
+public class LogEntryContents {
     public string? WrittenEntry;
 }
 
@@ -8,8 +8,8 @@ public class LogEntry {
     public DateTime CreatedOn;
     public DateTime Stardate;
     public string? Title;
-    public LogEntryContents Primary;
-    public LogEntryContents Supplemental;
+    public LogEntryContents? Primary;
+    public List<LogEntryContents>? Supplemental;
 }
 
 public class PersonalLog {
