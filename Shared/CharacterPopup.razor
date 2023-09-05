@@ -15,7 +15,7 @@
             <input class="w3-input" @bind=actor.Name>
         </div>
     </div>
-    <div class="art @actor.Division">
+    <div class="art no-select @actor.Division">
         <div class="top">
             <button class="w3-button w3-flat" @onclick=@(() => actor.IsFavorite = !actor.IsFavorite)>
                 <img src='@(actor.IsFavorite ? "ui/star_full.svg" : "ui/star_empty.svg")' width=32 height=32>

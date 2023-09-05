@@ -43,7 +43,7 @@
                 Character? pcCharacter;
                 var found = data.FindFavoriteCharacter(out pcVessel, out pcDepartment, out pcCharacter);
                 if (!ReferenceEquals(pcCharacter, null)) { 
-                    <div class=" w3-padding">
+                    <div class="w3-padding">
                         <div class="w3-round-xlarge w3-padding lcars-primary">
                             <span class="w3-large w3-padding">@pcCharacter.Name</span>
                             <span class="w3-margin-left w3-round-xlarge w3-padding w3-right w3-small lcars-primary-darker" style="margin-top: -4px">@pcCharacter.Rank</span>
@@ -68,7 +68,7 @@
                     </span>
                 </div>
                 
-                <div class="adventure-ship">
+                <div class="adventure-ship no-select">
                     @if (!ReferenceEquals(pcVessel, null)) {
                         <img src="@pcVessel.ImageUrl">
                     }

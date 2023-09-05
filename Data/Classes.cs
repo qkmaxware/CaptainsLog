@@ -23,6 +23,7 @@ public class VesselClass {
 
 public class VesselClassArtwork {
     public string? SilhouetteIconUrl {get; set;}
+    public string? PhysicalModelIconUrl {get; set;}
     public string? RenderedIconUrl {get; set;}
 
     public string? GetPreferredArtwork() {
@@ -31,6 +32,9 @@ public class VesselClassArtwork {
     public IEnumerable<string> EnumerateArtwork() {
         if (!string.IsNullOrEmpty(this.RenderedIconUrl))
             yield return this.RenderedIconUrl;
+
+        if (!string.IsNullOrEmpty(this.PhysicalModelIconUrl))
+            yield return this.PhysicalModelIconUrl;
 
         if (!string.IsNullOrEmpty(this.SilhouetteIconUrl))
             yield return this.SilhouetteIconUrl;
@@ -64,7 +68,10 @@ public static class VesselClasses {
     /// List of UFP vessels
     /// </summary>
     public static List<VesselClass> Federation {get; private set;} = new List<VesselClass> {
-        new VesselClass("Starfleet", "Akira", 5, "assets/ships/ufp/AkiraClass.png"),
+        new VesselClass("Starfleet", "Akira", 5, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/ufp/AkiraClass.png",
+            PhysicalModelIconUrl = "assets/ships/ufp/AkiraClass.WizKidz.png"
+        }),
         new VesselClass("Starfleet", "Ambassador", 5, new VesselClassArtwork {
             SilhouetteIconUrl = "assets/ships/ufp/AmbassadorClass.png",
             RenderedIconUrl = "assets/ships/ufp/AmbassadorClass.Render.png",
@@ -83,11 +90,13 @@ public static class VesselClasses {
         new VesselClass("Starfleet", "Defiant", 3, "assets/ships/ufp/DefiantClass.png"),
         new VesselClass("Starfleet", "Excelsior", 5, new VesselClassArtwork {
             SilhouetteIconUrl = "assets/ships/ufp/ExcelsiorClass.png",
+            PhysicalModelIconUrl = "assets/ships/ufp/ExcelsiorClass.WizKidz.png",
             RenderedIconUrl = "assets/ships/ufp/ExcelsiorClass.Render.png",
         }),
         new VesselClass("Starfleet", "Freedom", 4, "assets/ships/ufp/FreedomClass.png"),
         new VesselClass("Starfleet", "Galaxy", 6, new VesselClassArtwork {
             SilhouetteIconUrl = "assets/ships/ufp/GalaxyClass.png",
+            PhysicalModelIconUrl = "assets/ships/ufp/GalaxyClass.WizKidz.png",
             RenderedIconUrl = "assets/ships/ufp/GalaxyClass.Render.png",
         }),
         new VesselClass("Starfleet", "Hermes", 4, "assets/ships/ufp/HermesClass.png"),
@@ -97,7 +106,10 @@ public static class VesselClasses {
             RenderedIconUrl = "assets/ships/ufp/LunaClass.Render.png",
         }),
         new VesselClass("Starfleet", "Miranda", 4, "assets/ships/ufp/MirandaClass.png"),
-        new VesselClass("Starfleet", "Nebula", 5, "assets/ships/ufp/NebulaClass.png"),
+        new VesselClass("Starfleet", "Nebula", 5, new VesselClassArtwork{
+            SilhouetteIconUrl = "assets/ships/ufp/NebulaClass.png",
+            PhysicalModelIconUrl = "assets/ships/ufp/NebulaClass.WizKidz.png"
+        }),
         new VesselClass("Starfleet", "New Orleans", 4, "assets/ships/ufp/NewOrleansClass.png"),
         new VesselClass("Starfleet", "Niagara", 5, "assets/ships/ufp/NiagaraClass.png"),
         new VesselClass("Starfleet", "Norway", 4, new VesselClassArtwork {
@@ -136,6 +148,7 @@ public static class VesselClasses {
     public static List<VesselClass> Klingon {get; private set;} = new List<VesselClass> {
         new VesselClass("Klingon Empire", "B'Rel", 3, new VesselClassArtwork {
             SilhouetteIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.png",
+            PhysicalModelIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.WizKidz.png",
             RenderedIconUrl = "assets/ships/klingon/B'RelClassBird-of-Prey.Render.png",
         }),
         new VesselClass("Klingon Empire", "K'Vort", 3, new VesselClassArtwork {
@@ -144,6 +157,7 @@ public static class VesselClasses {
         }),
         new VesselClass("Klingon Empire", "Vor'Cha", 3, new VesselClassArtwork {
             SilhouetteIconUrl = "assets/ships/klingon/Vor'ChaClassAttackCruiser.png",
+            PhysicalModelIconUrl = "assets/ships/klingon/Vor'ChaClassAttackCruiser.WizKidz.png",
             RenderedIconUrl = "assets/ships/klingon/Vor'ChaClassAttackCruiser.Render.png",
         }),
         new VesselClass("Klingon Empire", "K'Tinga", 3, new VesselClassArtwork {
@@ -162,7 +176,10 @@ public static class VesselClasses {
     /// List of Dominion Vessels
     /// </summary>
     public static List<VesselClass> Dominion {get; private set;} = new List<VesselClass> {
-        new VesselClass("The Dominion", "Jem'Hadar Attack Ship", 3, "assets/ships/dominion/Jem'HadarAttackShip.png"),
+        new VesselClass("The Dominion", "Jem'Hadar Attack Ship", 3, new VesselClassArtwork {
+            SilhouetteIconUrl = "assets/ships/dominion/Jem'HadarAttackShip.png",
+            PhysicalModelIconUrl = "assets/ships/dominion/Jem'HadarAttackShip.WizKidz.png",
+        }),
         new VesselClass("The Dominion", "Jem'Hadar Battle Cruiser", 3, "assets/ships/dominion/Jem'HadarBattleCruiser.png"),
     };
     /// <summary>

@@ -1,0 +1,13 @@
+.w3-modal {
+    padding-top: 50px;
+    z-index: 99999;
+}
+
+header {
+    user-select: none;
+}
+
+article {
+    height: calc(100dvh - 250px);
+    overflow-y: auto;
+}
