@@ -27,6 +27,26 @@
                 <div class="lcars-secondary round-bottom-right round-bottom-left round-top-left round-top-right">&nbsp;</div>
                 <div class="w3-center" style="z-index: 1">
                     <table class="datastream">
+                        <!--
+                            var rng = new Random();
+                            var columns = new int[]{ 9999, 9999, 99, 999, 99, 999, 999, 999, 9999, 99 };
+                            // your code goes here
+                            for (var i = 5; i <= 8; i++) {
+                                Console.WriteLine($"<tr class='row{i}'>");
+                                Console.Write($"\t");
+                                Console.Write("<td>");
+                                Console.Write($"10{i}");
+                                Console.Write("</td>");
+                                
+                                for (var j = 0; j < columns.Length; j++) {
+                                    Console.Write("<td>");
+                                    Console.Write(rng.Next(columns[j]));
+                                    Console.Write("</td>");
+                                }
+                                Console.WriteLine();
+                                Console.WriteLine($"</tr>");
+                            }
+                        -->
                         <tr class='row1'>
                             <td>101</td><td>7569</td><td>4920</td><td>44</td><td>762</td><td>74</td><td>285</td><td>78</td><td>645</td><td>7249</td><td>35</td>
                         </tr>
@@ -42,8 +62,8 @@
                     </table>
                 </div>
             </div>
-            <div class="w3-display-middle" style="z-index: 5; width: 100%; background-color: rgb(32, 32, 32);">
-                <img src="loading/title.svg" style="display: block; width: 360px; max-width: 80%; margin-left: auto; margin-right: auto;">
+            <div class="w3-display-middle" style="z-index: 5; width: 100vw; background-color: rgb(32, 32, 32);">
+                <img src="loading/title.svg" style="display: block; width: 360px; max-width: 80vw; margin-left: auto; margin-right: auto;">
                 <svg class="loading-progress">
                     <circle r="40%" cx="50%" cy="50%" />
                     <circle r="40%" cx="50%" cy="50%" />

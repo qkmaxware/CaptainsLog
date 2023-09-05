@@ -1135,6 +1135,20 @@ main[b-axs8p9ae6d] {
 img[b-hgr6ixy6tq] {
     width: 100%
 }
+/* /Shared/Modal.razor.rz.scp.css */
+.w3-modal[b-9xqns9q9op] {
+    padding-top: 50px;
+    z-index: 99999;
+}
+
+header[b-9xqns9q9op] {
+    user-select: none;
+}
+
+article[b-9xqns9q9op] {
+    height: calc(100dvh - 250px);
+    overflow-y: auto;
+}
 /* /Shared/ShipDrawer.razor.rz.scp.css */
 .container[b-93cw0whznc] {
     position: relative;
