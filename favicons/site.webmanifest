@@ -1,6 +1,8 @@
 {
     "name": "Captain's Log",
     "short_name": "Captain's Log",
+    "start_url": "./",
+    "prefer_related_applications": false,
     "icons": [
         {
             "src": "android-chrome-192x192.png",

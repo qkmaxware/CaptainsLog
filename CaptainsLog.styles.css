@@ -568,6 +568,7 @@ select:focus[b-6wmp8yanm2] {
 .dice[b-dgqdd6znpt] {
     --d6-size: 60px;
     --d6-half-size: 30px;
+    transform: scale(1.1);
 }
 
 .d6[b-dgqdd6znpt] {
@@ -597,6 +598,7 @@ select:focus[b-6wmp8yanm2] {
     font-weight: bold;
     color: white;
     text-align: center;
+    user-select: none;
     background: rgb(34, 34, 34);
 }
 
@@ -607,10 +609,15 @@ select:focus[b-6wmp8yanm2] {
 .d6 .face-5[b-dgqdd6znpt]  { transform: rotateX( 90deg) translateZ(var(--d6-half-size)); }
 .d6 .face-6[b-dgqdd6znpt]  { transform: rotateX(-90deg) translateZ(var(--d6-half-size)); }
 /* /Shared/Dice3d/DiceD20.razor.rz.scp.css */
-.d20[b-sch1e5zqjy] {
-    display: inline-block;
+.dice[b-sch1e5zqjy] {
+	display: inline-block;
     width: 60px;
     height: 60px;
+	transform: scale(1.4);
+}
+.d20[b-sch1e5zqjy] {
+	width: 100%;
+	height: 100%;
     position: relative;
     transform-style: preserve-3d;
     transform: translateZ(calc(-1 * 30px));
@@ -730,6 +737,7 @@ select:focus[b-6wmp8yanm2] {
 	height: 0px;
 	transform-style: preserve-3d;
 	backface-visibility: hidden;
+	user-select: none;
 	counter-increment: steps 1;
 }
 
@@ -829,6 +837,7 @@ select:focus[b-6wmp8yanm2] {
 .dice[b-rvvj5htp11] {
     --d6-size: 60px;
     --d6-half-size: 30px;
+    transform: scale(1.1);
 }
 
 .d6[b-rvvj5htp11] {
@@ -858,6 +867,7 @@ select:focus[b-6wmp8yanm2] {
     font-weight: bold;
     color: white;
     text-align: center;
+    user-select: none;
     background: rgb(34, 34, 34);
 }
 
