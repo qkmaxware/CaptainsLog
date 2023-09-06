@@ -1,6 +1,7 @@
 @inherits BaseDice
 
-<div class="dice d6 @CssClass" @onclick=Roll>
+<div class="dice">
+<div class="d6 @CssClass" @onclick=Roll>
     <div class="face face-1">
         <img src="ui/challenge-1.png" width="42" height="42"/>
     </div>
@@ -15,6 +16,7 @@
     <div class="face face-6">
         <img src="ui/challenge-effect.png" width="42" height="42"/>
     </div>
+</div>
 </div>
 
 @code {

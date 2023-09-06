@@ -1,6 +1,7 @@
 .dice {
     --d6-size: 60px;
     --d6-half-size: 30px;
+    transform: scale(1.1);
 }
 
 .d6 {
@@ -30,6 +31,7 @@
     font-weight: bold;
     color: white;
     text-align: center;
+    user-select: none;
     background: rgb(34, 34, 34);
 }
 

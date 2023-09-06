@@ -27,7 +27,7 @@
             </TitleBlock>
             <div class="w3-padding w3-center w3-margin-top">
                 @foreach (var die in this.dices) {
-                    <div style="padding: 8px; display: inline-block;">
+                    <div style="padding: 16px; display: inline-block;">
                     @if (die is ChallengeDice cd) {
                         <DiceChallenge dice=cd OnDiceRoll=StateHasChanged></DiceChallenge>
                     } else if (die is D6 d6) {
