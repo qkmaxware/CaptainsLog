@@ -33,11 +33,11 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-x0+hdfYOQSqhUidpai+2pgmoeDZsqw6ZaIiDrnCfn\/0=",
+      "hash": "sha256-YxSr2kb7kd3zjjWdi\/GnUkjdomugIXwIqSGMuyx3J\/k=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-h9kkV\/HuJlp70G5y2HMjjGXIeEQlNfbcXsH+s5iBw34=",
+      "hash": "sha256-yVKLbcnI402qqLMNqun6otbmC2MNWLhQ3ZILY4z4M88=",
       "url": "_framework\/CaptainsLog.dll"
     },
     {
@@ -685,5 +685,5 @@
       "url": "ui\/wifi.svg"
     }
   ],
-  "version": "DKroRVEr"
+  "version": "niWrAC40"
 };
