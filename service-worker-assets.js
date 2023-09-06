@@ -33,11 +33,11 @@
       "url": "_framework\/icudt.dat"
     },
     {
-      "hash": "sha256-9IqPcGRexXQGPW\/ROQlbY1BVDk3EqmwO5VO96cKWJL8=",
+      "hash": "sha256-x0+hdfYOQSqhUidpai+2pgmoeDZsqw6ZaIiDrnCfn\/0=",
       "url": "_framework\/blazor.boot.json"
     },
     {
-      "hash": "sha256-+Qc8nv8MUfAyUBxhzH0nPghlfKwgoRm4y89sTyy898I=",
+      "hash": "sha256-h9kkV\/HuJlp70G5y2HMjjGXIeEQlNfbcXsH+s5iBw34=",
       "url": "_framework\/CaptainsLog.dll"
     },
     {
@@ -177,7 +177,7 @@
       "url": "_framework\/System.Text.Json.dll"
     },
     {
-      "hash": "sha256-guscyTqFdETqQV3OeuWiA+46Y4hoYWL7yeKtB6P6fD8=",
+      "hash": "sha256-6jkubYlmU9mbipnFXItJll824shSjI5kCpL52WlQD0s=",
       "url": "CaptainsLog.styles.css"
     },
     {
@@ -685,5 +685,5 @@
       "url": "ui\/wifi.svg"
     }
   ],
-  "version": "3i\/nljW5"
+  "version": "DKroRVEr"
 };

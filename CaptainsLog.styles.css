@@ -162,6 +162,11 @@ table[b-zfrgpyn35k] {
 .wide[b-8qcmruebrb] {
     width: 100%
 }
+
+.wide-mobile[b-8qcmruebrb] {
+    width: 100%;
+    max-width: 640px;
+}
 /* /Shared/CharacterDrawer.razor.rz.scp.css */
 .container[b-uio9babwbw] {
     position: relative;
